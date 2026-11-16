@@ -27,3 +27,4 @@ MEB TYMM BTY.5.1.4 "Yapay zekâ ile ilgili temel kavramları ve özellikleri sor
 
 ## 💻 Çalıştırma
 `5. Sınıf Bilişim_ Yapay Zekâ.html` dosyasını herhangi bir modern web tarayıcısında (Chrome, Edge, Firefox, Safari vb.) açmanız yeterlidir. Harici bir sunucu veya kurulum gerektirmez.
+
