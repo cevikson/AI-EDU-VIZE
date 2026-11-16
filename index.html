@@ -2242,7 +2242,12 @@ ${weak.length ? `<p><b>Şu konuları tekrar edebilirsin:</b></p>${weak.map(i => 
             $('#ct').innerHTML = can || last ? (S.i + 1) + ' / ' + SC.length : ic('lock') + ' Devam etmek için bu adımı tamamla';
             document.querySelectorAll('[data-i]').forEach(b => b.disabled = +b.dataset.i > m); $('#st').textContent = S.stars
         }
-        function go(i) { S.i = Math.max(0, Math.min(i, mx(), SC.length - 1)); S.seen.add(S.i); draw() }
+        function go(i, allowStageChange = false) {
+            const maxStep = allowStageChange ? SC.length - 1 : mx();
+            S.i = Math.max(0, Math.min(i, maxStep));
+            S.seen.add(S.i);
+            draw();
+        }
         function startLesson() { S.cover = false; draw() }
         const cover = () => `<div class="cover"><div class="cover-card">
             <div class="cover-icon">${ic('smart_toy')}</div>
@@ -2257,7 +2262,7 @@ ${weak.length ? `<p><b>Şu konuları tekrar edebilirsin:</b></p>${weak.map(i => 
                 return;
             }
             const [st, g, f] = SC[S.i];
-            $('#sg').innerHTML = ST.map((t, k) => `<button class="${k == st ? 'on' : ''}" data-i="${FS[k]}" onclick="go(${FS[k]})">${t}</button>`).join('');
+            $('#sg').innerHTML = ST.map((t, k) => `<button class="${k == st ? 'on' : ''}" onclick="go(${FS[k]}, true)">${t}</button>`).join('');
             const p = Math.round(S.seen.size / SC.length * 100); $('#pb').style.width = p + '%'; $('#pc').textContent = p + '%';
             $('#main').innerHTML = (g ? stepper(g) : '') + (g ? `<div style="margin:auto 0;width:100%">${f()}</div>` : f()); $('#main').scrollTop = 0;
             chk(0); if (f == rE1 || f == rCert) cf();
