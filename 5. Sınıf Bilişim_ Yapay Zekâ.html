@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>5. Sınıf Bilişim: Yapay Zekâ Atölyesi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,600,1,0&display=block"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #07152B;
+            --bg-mid: #0B2244;
+            --bg-teal: #06343D;
+            --text-main: #F8FAFC;
+            --text-dark: #0F172A;
+            --text-muted: #94A3B8;
+
+            /* Vibrant Theme Colors */
+            --bl: #2563EB;
+            --bl-border: #3B82F6;
+            --bl-shadow: #1D4ED8;
+            --bl-light: #EFF6FF;
+
+            --gr: #10B981;
+            --gr-border: #10B981;
+            --gr-shadow: #059669;
+            --gr-light: #F0FDF4;
+
+            --or: #F59E0B;
+            --or-border: #F59E0B;
+            --or-shadow: #D97706;
+            --or-light: #FFFDF5;
+
+            --rd: #EF4444;
+            --rd-border: #EF4444;
+            --rd-shadow: #DC2626;
+            --rd-light: #FEF2F2;
+
+            --pr: #8B5CF6;
+            --pr-border: #8B5CF6;
+            --pr-shadow: #7C3AED;
+            --pr-light: #F5F3FF;
+
+            /* Compatibility aliases */
+            --bg: #07152B;
+            --cd: #FFFFFF;
+            --tx: #0F172A;
+            --mu: #94A3B8;
+            --ink: #0F172A;
+            --blt: #EFF6FF;
+            --ort: #FFFDF5;
+            --grt: #F0FDF4;
+            --rdt: #FEF2F2;
+
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            background: #07152B;
+            scroll-padding-top: env(safe-area-inset-top, 0px);
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            display: grid;
+            grid-template-rows: auto minmax(0, 1fr) auto;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.22) 0%, transparent 45%),
+                radial-gradient(circle at 90% 15%, rgba(16, 185, 129, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 50% 85%, rgba(245, 158, 11, 0.15) 0%, transparent 55%),
+                linear-gradient(180deg, #07152B 0%, #0B2244 50%, #06343D 100%);
+            background-attachment: fixed;
+            color: #F8FAFC;
+            font: 700 17px/1.45 Nunito, "Segoe UI", system-ui, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Sparkle & stars background layer */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 20L62 38L80 40L62 42L60 60L58 42L40 40L58 38L60 20Z' fill='%23FBBF24' fill-opacity='0.25'/%3E%3Ccircle cx='105' cy='85' r='2' fill='%2338BDF8' fill-opacity='0.4'/%3E%3Ccircle cx='20' cy='95' r='2.5' fill='%23FBBF24' fill-opacity='0.3'/%3E%3Cpath d='M100 10L101 18L109 19L101 20L100 28L99 20L91 19L99 18L100 10Z' fill='%2338BDF8' fill-opacity='0.25'/%3E%3C/svg%3E");
+            background-size: 240px 240px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        header,
+        main,
+        nav,
+        footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        button {
+            font: inherit;
+            color: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+        }
+
+        .mi {
+            font-family: "Material Symbols Rounded";
+            font-weight: normal;
+            font-style: normal;
+            font-size: 1.25em;
+            line-height: 1;
+            display: inline-block;
+            vertical-align: -.22em;
+            font-variation-settings: "FILL" 1, "wght" 600;
+            white-space: nowrap;
+            text-transform: none;
+            letter-spacing: normal;
+            margin-right: 2px;
+        }
+
+        .okc {
+            color: #10B981;
+        }
+
+        .nc {
+            color: #EF4444;
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(10, 26, 51, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+            padding: 10px 20px;
+        }
+
+        .hr {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            font-size: 21px;
+            font-weight: 900;
+            margin: 0;
+            flex: 1;
+            min-width: 210px;
+            color: #FFFFFF;
+            letter-spacing: -0.3px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #F59E0B, #EA580C);
+            color: #FFFFFF;
+            padding: 3px 12px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0 4px 0 #9A3412, 0 6px 14px rgba(234, 88, 12, 0.35);
+            transform: rotate(-1.5deg);
+        }
+
+        .chip {
+            border: 2px solid rgba(255, 255, 255, 0.18);
+            background: rgba(15, 23, 42, 0.75);
+            color: #F8FAFC;
+            border-radius: 999px;
+            padding: 6px 16px;
+            font-weight: 800;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: transform .15s, border-color .2s;
+        }
+
+        .chip:hover {
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-1px);
+        }
+
+        #sb {
+            background: rgba(12, 28, 48, 0.9);
+            border: 2px solid rgba(245, 158, 11, 0.45);
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        #sb .mi {
+            color: #FBBF24 !important;
+            filter: drop-shadow(0 0 6px #F59E0B);
+        }
+
+        #sb b {
+            font-size: 16px;
+            color: #FFFFFF;
+        }
+
+        .sg,
+        .stp {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            margin: 8px 0 6px;
+            scrollbar-width: none;
+        }
+
+        .sg::-webkit-scrollbar,
+        .stp::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sg button,
+        .stp button {
+            border: 2px solid rgba(255, 255, 255, 0.16);
+            background: rgba(15, 23, 42, 0.65);
+            color: #E2E8F0;
+            border-radius: 999px;
+            padding: 5px 15px;
+            font-weight: 800;
+            font-size: 14px;
+            white-space: nowrap;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+            transition: all .2s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .sg button:hover:not(:disabled),
+        .stp button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.35);
+            color: #FFFFFF;
+        }
+
+        .sg button:disabled,
+        .stp button:disabled {
+            opacity: .35;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .sg button.on,
+        .stp button.on {
+            background: linear-gradient(135deg, #3B82F6, #1D4ED8) !important;
+            border-color: #60A5FA !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 3px 0 #1E3A8A, 0 0 14px rgba(59, 130, 246, 0.5) !important;
+        }
+
+        .stp .dn {
+            background: rgba(16, 185, 129, 0.25) !important;
+            border-color: #10B981 !important;
+            color: #A7F3D0 !important;
+        }
+
+        .pr {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .bar {
+            flex: 1;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+            overflow: hidden;
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .bar i {
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, #10B981, #34D399);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+            border-radius: 999px;
+            transition: width .6s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        #pc {
+            color: #F8FAFC;
+            font-weight: 900;
+            font-size: 14px;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 24px;
+        }
+
+        main::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        main::-webkit-scrollbar-track {
+            background: rgba(10, 26, 51, 0.4);
+        }
+
+        main::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+        }
+
+        .w {
+            margin: auto;
+            width: 100%;
+            max-width: 1200px;
+            animation: up .4s ease;
+        }
+
+        /* GLOWING PILL TITLE (matching screenshot [ ? Merak Sorusu ]) */
+        .ti-wrap {
+            margin-bottom: 20px;
+        }
+
+        .ti {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #072B28;
+            color: #FFFFFF;
+            border: 2.5px solid #10B981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), 0 6px 16px rgba(0, 0, 0, 0.35);
+            border-radius: 999px;
+            padding: 8px 24px 8px 10px;
+            font-size: clamp(20px, 2.6vw, 25px);
+            font-weight: 900;
+            margin: 0;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
+        }
+
+        .ti .ti-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: #10B981;
+            color: #042E25;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .ti .ti-icon .mi {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .lead {
+            font-size: clamp(18px, 2.2vw, 22px);
+            line-height: 1.55;
+        }
+
+        /* CARDS (Warm, Friendly, 3D Gaming Look) */
+        .cd {
+            background: #FFFFFF;
+            color: #0F172A;
+            border: 3.5px solid #E2E8F0;
+            border-radius: 26px;
+            box-shadow: 0 8px 0 #CBD5E1, 0 14px 28px rgba(0, 0, 0, 0.25);
+            padding: 22px 26px;
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .cd.tb {
+            background: #F8FAFC;
+            border-color: #3B82F6;
+            box-shadow: 0 8px 0 #2563EB, 0 14px 28px rgba(37, 99, 235, 0.2);
+        }
+
+        .cd.to {
+            background: #FFFDF5;
+            border-color: #F59E0B;
+            box-shadow: 0 8px 0 #D97706, 0 14px 28px rgba(245, 158, 11, 0.2);
+        }
+
+        .cd.tg {
+            background: #F0FDF4;
+            border-color: #10B981;
+            box-shadow: 0 8px 0 #059669, 0 14px 28px rgba(16, 185, 129, 0.2);
+        }
+
+        .cd.tr {
+            background: #FEF2F2;
+            border-color: #EF4444;
+            box-shadow: 0 8px 0 #DC2626, 0 14px 28px rgba(239, 68, 68, 0.2);
+        }
+
+        /* QUESTION CARD (matching reference) */
+        .question-box {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 22px;
+            font-size: clamp(18px, 2.2vw, 21px);
+            line-height: 1.55;
+            color: #1E293B !important;
+            background: #FFFDF5;
+            border: 3.5px solid #F59E0B;
+            box-shadow: 0 8px 0 #D97706, 0 14px 30px rgba(0, 0, 0, 0.28);
+        }
+
+        .q-icon {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border: 3px solid #F59E0B;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: #D97706;
+            font-size: 34px;
+            box-shadow: 0 4px 0 #B45309;
+        }
+
+        .q-highlight {
+            color: #047857;
+            font-weight: 900;
+        }
+
+        .g {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .g2 {
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        }
+
+        .col {
+            display: grid;
+            gap: 14px;
+            align-content: start;
+        }
+
+        .ic {
+            width: 68px;
+            height: 68px;
+            border: 3.5px solid #0F172A;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 36px;
+            background: #FFFFFF;
+            color: #2563EB;
+            box-shadow: 0 4px 0 #0F172A;
+        }
+
+        .ic .mi {
+            margin: 0;
+        }
+
+        .to .ic {
+            color: #F59E0B;
+        }
+
+        .tg .ic {
+            color: #10B981;
+        }
+
+        .tr .ic {
+            color: #EF4444;
+        }
+
+        .nm {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #2563EB;
+            color: #FFFFFF;
+            border: 3.5px solid #0F172A;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 26px;
+            box-shadow: 0 4px 0 #0F172A;
+        }
+
+        .to .nm {
+            background: #F59E0B;
+        }
+
+        .tg .nm {
+            background: #10B981;
+        }
+
+        .cd h3 {
+            margin: 10px 0 6px;
+            font-size: 21px;
+            font-weight: 900;
+            color: #0F172A;
+        }
+
+        .cd p {
+            margin: 0;
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        /* 3D GAME BUTTONS */
+        .b {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            border-radius: 18px;
+            padding: 12px 24px;
+            font-weight: 900;
+            font-size: 17px;
+            color: #FFFFFF;
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            box-shadow: 0 5px 0 #1D4ED8, 0 8px 18px rgba(37, 99, 235, 0.35);
+            cursor: pointer;
+            transition: transform .12s, box-shadow .12s, opacity .2s;
+        }
+
+        .b:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #1D4ED8, 0 12px 22px rgba(37, 99, 235, 0.45);
+        }
+
+        .b:active:not(:disabled) {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #1D4ED8;
+        }
+
+        .b.o {
+            background: linear-gradient(135deg, #F59E0B, #EA580C);
+            box-shadow: 0 5px 0 #B45309, 0 8px 18px rgba(234, 88, 12, 0.4);
+        }
+
+        .b.o:hover:not(:disabled) {
+            box-shadow: 0 7px 0 #B45309, 0 12px 22px rgba(234, 88, 12, 0.5);
+        }
+
+        .b.o:active:not(:disabled) {
+            box-shadow: 0 2px 0 #B45309;
+        }
+
+        .b:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .rdy {
+            animation: rd .6s 2;
+        }
+
+        label.b {
+            display: inline-flex;
+            margin: 6px 6px 0 0;
+        }
+
+        /* OPTIONS / ANSWER CHOICES (Matching reference: A: Blue, B: Green, C: Purple) */
+        .op {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            text-align: left;
+            background: #FFFFFF;
+            color: #0F172A;
+            border: 3.5px solid #E2E8F0;
+            border-radius: 24px;
+            box-shadow: 0 6px 0 #CBD5E1, 0 8px 18px rgba(0, 0, 0, 0.15);
+            padding: 16px 20px;
+            min-height: 64px;
+            font-weight: 800;
+            font-size: 17px;
+            line-height: 1.45;
+            transition: transform .15s cubic-bezier(.2, .8, .2, 1), box-shadow .15s, border-color .15s, background-color .15s;
+            user-select: none;
+        }
+
+        .op:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 0 #CBD5E1, 0 12px 22px rgba(0, 0, 0, 0.2);
+        }
+
+        .op:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #CBD5E1;
+        }
+
+        .op b {
+            display: block;
+            font-weight: 900;
+        }
+
+        /* Circular Letter Badge */
+        .opt-badge {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 18px;
+            color: #FFFFFF;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+        }
+
+        .opt-text {
+            flex: 1;
+        }
+
+        /* The 3 Option Card Flavors */
+        .opt-a,
+        .quiz-options>.op:nth-child(1),
+        .g>.op:nth-child(3n+1) {
+            background: #EFF6FF;
+            border-color: #3B82F6;
+            box-shadow: 0 6px 0 #2563EB, 0 8px 18px rgba(37, 99, 235, 0.2);
+        }
+
+        .opt-a:hover:not(:disabled),
+        .quiz-options>.op:nth-child(1):hover:not(:disabled),
+        .g>.op:nth-child(3n+1):hover:not(:disabled) {
+            box-shadow: 0 9px 0 #2563EB, 0 14px 26px rgba(37, 99, 235, 0.3);
+        }
+
+        .opt-a:active:not(:disabled),
+        .quiz-options>.op:nth-child(1):active:not(:disabled),
+        .g>.op:nth-child(3n+1):active:not(:disabled) {
+            box-shadow: 0 2px 0 #2563EB;
+        }
+
+        .opt-a .opt-badge,
+        .quiz-options>.op:nth-child(1) .opt-badge,
+        .g>.op:nth-child(3n+1) .opt-badge {
+            background: #2563EB;
+        }
+
+        .opt-b,
+        .quiz-options>.op:nth-child(2),
+        .g>.op:nth-child(3n+2) {
+            background: #F0FDF4;
+            border-color: #10B981;
+            box-shadow: 0 6px 0 #059669, 0 8px 18px rgba(16, 185, 129, 0.2);
+        }
+
+        .opt-b:hover:not(:disabled),
+        .quiz-options>.op:nth-child(2):hover:not(:disabled),
+        .g>.op:nth-child(3n+2):hover:not(:disabled) {
+            box-shadow: 0 9px 0 #059669, 0 14px 26px rgba(16, 185, 129, 0.3);
+        }
+
+        .opt-b:active:not(:disabled),
+        .quiz-options>.op:nth-child(2):active:not(:disabled),
+        .g>.op:nth-child(3n+2):active:not(:disabled) {
+            box-shadow: 0 2px 0 #059669;
+        }
+
+        .opt-b .opt-badge,
+        .quiz-options>.op:nth-child(2) .opt-badge,
+        .g>.op:nth-child(3n+2) .opt-badge {
+            background: #059669;
+        }
+
+        .opt-c,
+        .quiz-options>.op:nth-child(3),
+        .g>.op:nth-child(3n) {
+            background: #F5F3FF;
+            border-color: #8B5CF6;
+            box-shadow: 0 6px 0 #7C3AED, 0 8px 18px rgba(139, 92, 246, 0.2);
+        }
+
+        .opt-c:hover:not(:disabled),
+        .quiz-options>.op:nth-child(3):hover:not(:disabled),
+        .g>.op:nth-child(3n):hover:not(:disabled) {
+            box-shadow: 0 9px 0 #7C3AED, 0 14px 26px rgba(139, 92, 246, 0.3);
+        }
+
+        .opt-c:active:not(:disabled),
+        .quiz-options>.op:nth-child(3):active:not(:disabled),
+        .g>.op:nth-child(3n):active:not(:disabled) {
+            box-shadow: 0 2px 0 #7C3AED;
+        }
+
+        .opt-c .opt-badge,
+        .quiz-options>.op:nth-child(3) .opt-badge,
+        .g>.op:nth-child(3n) .opt-badge {
+            background: #7C3AED;
+        }
+
+        /* 2-Option groups */
+        .g2>.op:nth-child(1) {
+            background: #EFF6FF;
+            border-color: #3B82F6;
+            box-shadow: 0 6px 0 #2563EB, 0 8px 18px rgba(37, 99, 235, 0.2);
+        }
+
+        .g2>.op:nth-child(2) {
+            background: #FFFDF5;
+            border-color: #F59E0B;
+            box-shadow: 0 6px 0 #D97706, 0 8px 18px rgba(245, 158, 11, 0.2);
+        }
+
+        .op.sel,
+        .op.cur {
+            outline: 4px solid #F59E0B;
+            transform: scale(1.02);
+        }
+
+        .op.ok,
+        .fb.ok {
+            background: #ECFDF5 !important;
+            border-color: #10B981 !important;
+            box-shadow: 0 6px 0 #059669, 0 10px 24px rgba(16, 185, 129, 0.25) !important;
+            color: #064E3B !important;
+        }
+
+        .op.no,
+        .fb.no {
+            background: #FEF2F2 !important;
+            border-color: #EF4444 !important;
+            box-shadow: 0 6px 0 #DC2626, 0 10px 24px rgba(239, 68, 68, 0.25) !important;
+            color: #7F1D1D !important;
+        }
+
+        .op.no {
+            animation: sk .4s;
+        }
+
+        .op.pl {
+            animation: pop .5s;
+        }
+
+        /* FEEDBACK BOX */
+        .fb {
+            padding: 16px 22px;
+            border: 3.5px solid;
+            border-radius: 20px;
+            margin-top: 16px;
+            font-weight: 800;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: up .4s ease;
+        }
+
+        /* ACCORDIONS */
+        .x {
+            display: block;
+            cursor: pointer;
+        }
+
+        .x .d {
+            display: grid;
+            grid-template-rows: 0fr;
+            opacity: 0;
+            transition: grid-template-rows .4s ease, opacity .4s ease, margin .4s;
+        }
+
+        .x.open .d {
+            grid-template-rows: 1fr;
+            opacity: 1;
+            margin-top: 8px;
+        }
+
+        .x .d>span {
+            overflow: hidden;
+            min-height: 0;
+            display: block;
+            color: #334155;
+            font-weight: 700;
+        }
+
+        .chev {
+            float: right;
+            transition: transform .4s ease;
+        }
+
+        .x.open .chev {
+            transform: rotate(180deg);
+        }
+
+        .x.g1.open,
+        .x.g1:hover {
+            background: #F0FDF4;
+            border-color: #10B981;
+            box-shadow: 0 6px 0 #059669;
+        }
+
+        .x.r1 {
+            background: #FEF2F2;
+            border-color: #EF4444;
+            box-shadow: 0 6px 0 #DC2626;
+        }
+
+        .rev {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows .45s ease;
+        }
+
+        .rev.open {
+            grid-template-rows: 1fr;
+        }
+
+        .rev>div {
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .big {
+            font-size: clamp(20px, 2.6vw, 26px);
+            font-weight: 900;
+        }
+
+        .flow {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .flow .op {
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .ar {
+            align-self: center;
+            font-size: 32px;
+            color: #94A3B8;
+            transition: transform .3s, color .3s;
+        }
+
+        .ar.on {
+            color: #F59E0B;
+            transform: scale(1.3);
+            filter: drop-shadow(0 0 8px #F59E0B);
+        }
+
+        /* VIDEO */
+        .vid {
+            position: relative;
+            aspect-ratio: 16/9;
+            width: min(100%, 86vh);
+            margin: auto;
+            background: #0A192F;
+            border: 3.5px solid #3B82F6;
+            border-radius: 26px;
+            box-shadow: 0 8px 0 #1D4ED8, 0 16px 36px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+
+        .vid video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .ps {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            padding: 20px;
+            background: linear-gradient(135deg, #1E3A8A, #0F172A);
+        }
+
+        .vid.err .ps {
+            display: flex;
+        }
+
+        .vid.err video {
+            visibility: hidden;
+        }
+
+        .ps h3,
+        .ps p {
+            margin: 6px 0;
+        }
+
+        .ps .bg {
+            font-size: 64px;
+            color: #F59E0B;
+        }
+
+        /* DRAG AND DROP SLOTS */
+        .tray {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .tray .op {
+            width: auto;
+            cursor: grab;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .op.em {
+            border-style: dashed !important;
+            background: rgba(255, 255, 255, 0.6) !important;
+        }
+
+        .op.hov {
+            background: #EFF6FF !important;
+            border-color: #3B82F6 !important;
+            transform: scale(1.05);
+            border-style: solid !important;
+            box-shadow: 0 0 18px rgba(59, 130, 246, 0.5) !important;
+        }
+
+        /* PROGRESS DOTS */
+        .dots {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .dots i {
+            width: 34px;
+            height: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.6);
+            transition: all .3s;
+        }
+
+        .dots .on {
+            background: #10B981 !important;
+            border-color: #34D399;
+            box-shadow: 0 0 10px #10B981;
+        }
+
+        .dots .cur {
+            background: #F59E0B;
+            border-color: #FCD34D;
+            box-shadow: 0 0 10px #F59E0B;
+        }
+
+        /* BULMACA INPUTS */
+        .bx {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 14px 0;
+        }
+
+        .bx input {
+            width: 54px;
+            height: 60px;
+            text-align: center;
+            font: 900 28px Nunito, system-ui;
+            border: 3.5px solid #3B82F6;
+            border-radius: 16px;
+            background: #FFFFFF;
+            color: #0F172A;
+            box-shadow: 0 5px 0 #1D4ED8, 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: all .2s;
+        }
+
+        .bx input:focus {
+            outline: none;
+            border-color: #F59E0B;
+            box-shadow: 0 5px 0 #B45309, 0 0 16px rgba(245, 158, 11, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .bx input.ok {
+            background: #ECFDF5;
+            border-color: #10B981;
+            box-shadow: 0 5px 0 #059669;
+            color: #065F46;
+        }
+
+        .bx input.no {
+            background: #FEF2F2;
+            border-color: #EF4444;
+            box-shadow: 0 5px 0 #B91C1C;
+            color: #991B1B;
+        }
+
+        .kb {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 14px;
+        }
+
+        .kb button {
+            min-width: 44px;
+            height: 44px;
+            border: 2px solid #CBD5E1;
+            border-radius: 12px;
+            background: #FFFFFF;
+            color: #0F172A;
+            font-weight: 900;
+            font-size: 18px;
+            box-shadow: 0 4px 0 #94A3B8;
+            transition: transform .1s, box-shadow .1s;
+        }
+
+        .kb button:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #94A3B8;
+        }
+
+        .kb .hn {
+            background: linear-gradient(135deg, #F59E0B, #EA580C);
+            color: #FFFFFF;
+            border: none;
+            box-shadow: 0 4px 0 #B45309;
+            padding: 0 16px;
+            margin-left: auto;
+        }
+
+        .kb .hn:disabled {
+            opacity: .4;
+        }
+
+        .bx input.pl {
+            animation: pop .5s;
+        }
+
+        .reel {
+            position: fixed;
+            z-index: 30;
+            overflow: hidden;
+            border-radius: 14px;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 4px #F59E0B, 0 10px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .reel::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 3.5px solid #0F172A;
+            border-radius: 14px;
+        }
+
+        .strip {
+            transition: transform 1.25s cubic-bezier(.12, .7, .2, 1);
+        }
+
+        .strip div {
+            display: grid;
+            place-items: center;
+            font: 900 28px Nunito, system-ui;
+            color: #0F172A;
+        }
+
+        .bub {
+            background: #FFFDF5;
+            color: #0F172A;
+            border: 3.5px solid #F59E0B;
+            border-radius: 24px 24px 24px 4px;
+            padding: 16px 22px;
+            font-size: 22px;
+            font-weight: 800;
+            box-shadow: 0 6px 0 #D97706, 0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .cert {
+            border: 6px double #F59E0B;
+            border-radius: 26px;
+            padding: 26px;
+            text-align: center;
+            background: #FFFFFF;
+            color: #0F172A;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            animation: pop .6s;
+        }
+
+        .cf {
+            position: fixed;
+            top: -40px;
+            font-size: 30px;
+            animation: fl 3.2s linear forwards;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .pop {
+            animation: pp .5s;
+        }
+
+        @keyframes up {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+        }
+
+        @keyframes pp {
+            50% {
+                transform: scale(1.4);
+            }
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(.88);
+            }
+
+            60% {
+                transform: scale(1.06);
+            }
+        }
+
+        @keyframes rd {
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        @keyframes sk {
+            25% {
+                transform: translateX(-6px);
+            }
+
+            75% {
+                transform: translateX(6px);
+            }
+        }
+
+        @keyframes fl {
+            to {
+                transform: translateY(115vh) rotate(540deg);
+            }
+        }
+
+        footer {
+            text-align: center;
+            color: #94A3B8;
+            font-size: 12px;
+            padding: 6px 14px;
+            background: rgba(7, 21, 43, 0.9);
+        }
+
+        /* NAVIGATION BAR */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            background: rgba(10, 26, 51, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
+            padding: 10px 24px;
+        }
+
+        nav .b {
+            width: 35%;
+            max-width: 280px;
+        }
+
+        nav>b {
+            text-align: center;
+            font-size: 15px;
+            font-weight: 800;
+            color: #E2E8F0;
+        }
+
+        @media (max-width: 640px) {
+            .question-box {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .ti {
+                font-size: 18px;
+                padding: 6px 16px 6px 8px;
+            }
+
+            .ti .ti-icon {
+                width: 32px;
+                height: 32px;
+            }
+
+            .ti .ti-icon .mi {
+                font-size: 20px;
+            }
+        }
+
+        /* 3-CARD INTERACTIVE GRID */
+        .info-card-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            margin-top: 14px;
+        }
+
+        .interactive-card {
+            background: #FFFFFF;
+            border: 3.5px solid #E2E8F0;
+            border-radius: 26px;
+            padding: 24px 22px;
+            cursor: pointer;
+            user-select: none;
+            transition: transform .2s cubic-bezier(.2, .8, .2, 1), box-shadow .2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .interactive-card:active {
+            transform: translateY(3px);
+        }
+
+        .interactive-card .ic-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .interactive-card .ic-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 32px;
+            color: #FFFFFF;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+        }
+
+        .interactive-card .ic-status {
+            font-size: 13px;
+            font-weight: 900;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.08);
+            color: #475569;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all .2s;
+        }
+
+        .interactive-card.discovered .ic-status {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .interactive-card h3 {
+            margin: 0 0 10px;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .interactive-card p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.55;
+            color: #334155;
+        }
+
+        /* Card Blue (İnsan Zekâsı) */
+        .card-blue {
+            background: #EFF6FF;
+            border-color: #3B82F6;
+            box-shadow: 0 8px 0 #2563EB, 0 14px 26px rgba(37, 99, 235, 0.2);
+        }
+
+        .card-blue:hover {
+            box-shadow: 0 12px 0 #2563EB, 0 18px 32px rgba(37, 99, 235, 0.3);
+        }
+
+        .card-blue:active {
+            box-shadow: 0 2px 0 #2563EB;
+        }
+
+        .card-blue .ic-icon {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            box-shadow: 0 4px 0 #1D4ED8;
+        }
+
+        .card-blue h3 {
+            color: #1E3A8A;
+        }
+
+        /* Card Amber (Sıradan Bilgisayar) */
+        .card-amber {
+            background: #FFFDF5;
+            border-color: #F59E0B;
+            box-shadow: 0 8px 0 #D97706, 0 14px 26px rgba(245, 158, 11, 0.2);
+        }
+
+        .card-amber:hover {
+            box-shadow: 0 12px 0 #D97706, 0 18px 32px rgba(245, 158, 11, 0.3);
+        }
+
+        .card-amber:active {
+            box-shadow: 0 2px 0 #D97706;
+        }
+
+        .card-amber .ic-icon {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            box-shadow: 0 4px 0 #B45309;
+        }
+
+        .card-amber h3 {
+            color: #92400E;
+        }
+
+        /* Card Green (Yapay Zekâ) */
+        .card-green {
+            background: #F0FDF4;
+            border-color: #10B981;
+            box-shadow: 0 8px 0 #059669, 0 14px 26px rgba(16, 185, 129, 0.2);
+        }
+
+        .card-green:hover {
+            box-shadow: 0 12px 0 #059669, 0 18px 32px rgba(16, 185, 129, 0.3);
+        }
+
+        .card-green:active {
+            box-shadow: 0 2px 0 #059669;
+        }
+
+        .card-green .ic-icon {
+            background: linear-gradient(135deg, #10B981, #059669);
+            box-shadow: 0 4px 0 #047857;
+        }
+
+        .card-green h3 {
+            color: #065F46;
+        }
+
+        /* MODAL POPUP */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(4, 13, 27, 0.82);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            place-items: center;
+            padding: 20px;
+            animation: fadeIn .25s ease;
+        }
+
+        .modal-overlay.open {
+            display: grid;
+        }
+
+        .modal-card {
+            background: #FFFDF5;
+            color: #0F172A;
+            border: 3.5px solid #F59E0B;
+            border-radius: 28px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), 0 8px 0 #D97706;
+            max-width: 580px;
+            width: 100%;
+            overflow: hidden;
+            animation: pop .35s cubic-bezier(.17, .89, .32, 1.28);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+            border-bottom: 2px solid #FDE68A;
+            background: #FEF3C7;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: #92400E;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-close {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 2px solid #D97706;
+            color: #92400E;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #B45309;
+            transition: transform .1s;
+        }
+
+        .modal-close:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #B45309;
+        }
+
+        .modal-body {
+            padding: 22px 24px;
+        }
+
+        .goal-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 14px;
+        }
+
+        .goal-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: #FFFFFF;
+            border: 2px solid #E2E8F0;
+            border-radius: 18px;
+            padding: 14px 16px;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #1E293B;
+            box-shadow: 0 4px 0 #E2E8F0;
+        }
+
+        .goal-num {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: #FFFFFF;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 16px;
+            box-shadow: 0 2px 0 #047857;
+        }
+
+        .modal-footer {
+            padding: 14px 24px 20px;
+            text-align: right;
+            border-top: 2px solid #F1F5F9;
+        }
+
+        .info-chip {
+            background: rgba(37, 99, 235, 0.25) !important;
+            border-color: #3B82F6 !important;
+            color: #BFDBFE !important;
+        }
+
+        .info-chip:hover {
+            background: rgba(37, 99, 235, 0.4) !important;
+            color: #FFFFFF !important;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* YAPAY ZEKÂ NASIL ÖĞRENİR? - ENHANCED FLOW & DETAIL CARD */
+        .step-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 22px;
+            cursor: pointer;
+            text-align: left;
+            transition: transform .15s, box-shadow .15s;
+        }
+
+        .step-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .step-btn:active {
+            transform: translateY(3px);
+        }
+
+        .st-num {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+            font-weight: 900;
+            color: #FFFFFF;
+            flex-shrink: 0;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+        }
+
+        .step-human .st-num {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+        }
+
+        .step-ai .st-num {
+            background: linear-gradient(135deg, #10B981, #059669);
+        }
+
+        .st-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            flex: 1;
+        }
+
+        .st-title {
+            font-size: 17px;
+            font-weight: 900;
+            color: #0F172A;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mini-who {
+            font-size: 12px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            width: fit-content;
+        }
+
+        .mini-who.who-human {
+            background: #DBEAFE;
+            color: #1E40AF;
+            border: 1.5px solid #3B82F6;
+        }
+
+        .mini-who.who-ai {
+            background: #D1FAE5;
+            color: #065F46;
+            border: 1.5px solid #10B981;
+        }
+
+        /* DETAIL CARD */
+        .step-detail-card {
+            background: #FFFDF5;
+            border: 3.5px solid #F59E0B;
+            border-radius: 26px;
+            padding: 24px 26px;
+            box-shadow: 0 8px 0 #D97706, 0 16px 36px rgba(0, 0, 0, 0.28);
+            margin-top: 18px;
+            animation: up .35s ease;
+        }
+
+        .sd-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+            border-bottom: 2px solid #FDE68A;
+            padding-bottom: 16px;
+        }
+
+        .sd-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .sd-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 32px;
+            color: #FFFFFF;
+            flex-shrink: 0;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+        }
+
+        .sd-icon.icon-human {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            box-shadow: 0 4px 0 #1D4ED8;
+        }
+
+        .sd-icon.icon-ai {
+            background: linear-gradient(135deg, #10B981, #059669);
+            box-shadow: 0 4px 0 #047857;
+        }
+
+        .sd-step-num {
+            font-size: 13px;
+            font-weight: 900;
+            color: #D97706;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+        }
+
+        .sd-title {
+            margin: 2px 0 0;
+            font-size: 24px;
+            font-weight: 900;
+            color: #0F172A;
+            line-height: 1.2;
+        }
+
+        .who-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-weight: 900;
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .who-label {
+            font-size: 12px;
+            opacity: 0.85;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            font-weight: 800;
+        }
+
+        .who-val {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .who-badge.who-human {
+            background: linear-gradient(135deg, #DBEAFE, #EFF6FF);
+            color: #1E3A8A;
+            border: 2.5px solid #3B82F6;
+            box-shadow: 0 4px 0 #2563EB;
+        }
+
+        .who-badge.who-ai {
+            background: linear-gradient(135deg, #D1FAE5, #ECFDF5);
+            color: #064E3B;
+            border: 2.5px solid #10B981;
+            box-shadow: 0 4px 0 #059669;
+        }
+
+        .sd-body {
+            display: grid;
+            gap: 14px;
+        }
+
+        .sd-desc {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #1E293B;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .sd-example {
+            background: #FFFFFF;
+            border: 2.5px solid #FDE68A;
+            border-radius: 18px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            box-shadow: 0 4px 0 #FDE68A;
+            font-size: 16px;
+            color: #334155;
+            line-height: 1.55;
+        }
+
+        .sd-example-badge {
+            flex-shrink: 0;
+            background: #FEF3C7;
+            color: #B45309;
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+        }
+
+        /* DISTINCT 3-COLOR THEMES FOR YAPAY ZEKÂ NASIL ÖĞRENİR? */
+        /* THEME BLUE (Step 1) */
+        .step-btn.theme-blue {
+            background: #EFF6FF;
+            border-color: #3B82F6;
+            box-shadow: 0 6px 0 #2563EB, 0 8px 18px rgba(37, 99, 235, 0.2);
+        }
+        .step-btn.theme-blue:hover {
+            box-shadow: 0 9px 0 #2563EB, 0 12px 24px rgba(37, 99, 235, 0.3);
+        }
+        .step-btn.theme-blue:active {
+            box-shadow: 0 2px 0 #2563EB;
+        }
+        .step-btn.theme-blue .st-num {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            box-shadow: 0 3px 0 #1D4ED8;
+        }
+        .step-detail-card.theme-blue {
+            background: #EFF6FF;
+            border-color: #3B82F6;
+            box-shadow: 0 8px 0 #2563EB, 0 16px 36px rgba(37, 99, 235, 0.25);
+        }
+        .step-detail-card.theme-blue .sd-header {
+            border-bottom: 2px solid #BFDBFE;
+        }
+        .step-detail-card.theme-blue .sd-icon {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            box-shadow: 0 4px 0 #1D4ED8;
+        }
+        .step-detail-card.theme-blue .sd-step-num {
+            color: #2563EB;
+        }
+        .step-detail-card.theme-blue .sd-example {
+            border-color: #BFDBFE;
+            box-shadow: 0 4px 0 #BFDBFE;
+        }
+        .step-detail-card.theme-blue .sd-example-badge {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        /* THEME PURPLE (Step 2) */
+        .step-btn.theme-purple {
+            background: #F5F3FF;
+            border-color: #8B5CF6;
+            box-shadow: 0 6px 0 #7C3AED, 0 8px 18px rgba(139, 92, 246, 0.2);
+        }
+        .step-btn.theme-purple:hover {
+            box-shadow: 0 9px 0 #7C3AED, 0 12px 24px rgba(139, 92, 246, 0.3);
+        }
+        .step-btn.theme-purple:active {
+            box-shadow: 0 2px 0 #7C3AED;
+        }
+        .step-btn.theme-purple .st-num {
+            background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+            box-shadow: 0 3px 0 #6D28D9;
+        }
+        .step-detail-card.theme-purple {
+            background: #F5F3FF;
+            border-color: #8B5CF6;
+            box-shadow: 0 8px 0 #7C3AED, 0 16px 36px rgba(139, 92, 246, 0.25);
+        }
+        .step-detail-card.theme-purple .sd-header {
+            border-bottom: 2px solid #DDD6FE;
+        }
+        .step-detail-card.theme-purple .sd-icon {
+            background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+            box-shadow: 0 4px 0 #6D28D9;
+        }
+        .step-detail-card.theme-purple .sd-step-num {
+            color: #7C3AED;
+        }
+        .step-detail-card.theme-purple .sd-example {
+            border-color: #DDD6FE;
+            box-shadow: 0 4px 0 #DDD6FE;
+        }
+        .step-detail-card.theme-purple .sd-example-badge {
+            background: #EDE9FE;
+            color: #6D28D9;
+        }
+
+        /* THEME GREEN (Step 3) */
+        .step-btn.theme-green {
+            background: #F0FDF4;
+            border-color: #10B981;
+            box-shadow: 0 6px 0 #059669, 0 8px 18px rgba(16, 185, 129, 0.2);
+        }
+        .step-btn.theme-green:hover {
+            box-shadow: 0 9px 0 #059669, 0 12px 24px rgba(16, 185, 129, 0.3);
+        }
+        .step-btn.theme-green:active {
+            box-shadow: 0 2px 0 #059669;
+        }
+        .step-btn.theme-green .st-num {
+            background: linear-gradient(135deg, #10B981, #059669);
+            box-shadow: 0 3px 0 #047857;
+        }
+        .step-detail-card.theme-green {
+            background: #F0FDF4;
+            border-color: #10B981;
+            box-shadow: 0 8px 0 #059669, 0 16px 36px rgba(16, 185, 129, 0.25);
+        }
+        .step-detail-card.theme-green .sd-header {
+            border-bottom: 2px solid #A7F3D0;
+        }
+        .step-detail-card.theme-green .sd-icon {
+            background: linear-gradient(135deg, #10B981, #059669);
+            box-shadow: 0 4px 0 #047857;
+        }
+        .step-detail-card.theme-green .sd-step-num {
+            color: #059669;
+        }
+        .step-detail-card.theme-green .sd-example {
+            border-color: #A7F3D0;
+            box-shadow: 0 4px 0 #A7F3D0;
+        }
+        .step-detail-card.theme-green .sd-example-badge {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        /* WHO BADGE COLOR CLASSES */
+        .who-badge.badge-blue, .mini-who.badge-blue {
+            background: linear-gradient(135deg, #DBEAFE, #EFF6FF);
+            color: #1E40AF;
+            border: 2px solid #3B82F6;
+            box-shadow: 0 3px 0 #2563EB;
+        }
+        .who-badge.badge-purple, .mini-who.badge-purple {
+            background: linear-gradient(135deg, #EDE9FE, #F5F3FF);
+            color: #6D28D9;
+            border: 2px solid #8B5CF6;
+            box-shadow: 0 3px 0 #7C3AED;
+        }
+        .who-badge.badge-green, .mini-who.badge-green {
+            background: linear-gradient(135deg, #D1FAE5, #ECFDF5);
+            color: #065F46;
+            border: 2px solid #10B981;
+            box-shadow: 0 3px 0 #059669;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="hr">
+            <h1>5. Sınıf Bilişim: <span>Yapay Zekâ Atölyesi</span></h1>
+            <button id="info-btn" class="chip info-chip" onclick="openModal('info-modal')"
+                title="Ders Hedeflerini Gör"><span class="mi" style="color:#60A5FA">info</span> <b>Hedefler</b></button>
+            <button id="tt" class="chip" onclick="tts()" aria-pressed="false"><span class="mi">volume_off</span> Sesli
+                Okuma: Kapalı</button>
+            <span id="sb" class="chip"><span class="mi" style="color:var(--or)">star</span> <b id="st">0</b></span>
+        </div>
+        <div id="sg" class="sg"></div>
+        <div class="pr">
+            <div class="bar"><i id="pb"></i></div><b id="pc">0%</b>
+        </div>
+    </header>
+    <main id="main"></main>
+    <div>
+        <footer>Oluşturulma / Güncelleme Tarihi: Kasım 2026 | MEB TYMM BTY.5.1.4 Kazanımı | Tüm telif ve kullanım
+            hakları eğitim amaçlı düzenlenmiştir.</footer>
+        <nav><button id="pv" class="b" onclick="go(S.i-1)"><span class="mi">arrow_back</span> Önceki Adım</button><b
+                id="ct"></b><button id="nx" class="b o" onclick="go(S.i+1)">Sonraki Adım <span
+                    class="mi">arrow_forward</span></button></nav>
+    </div>
+    <script>
+        const $ = s => document.querySelector(s);
+        const S = { i: 0, stars: 0, seen: new Set([0]), tts: 0, q: {}, p: {}, done: {}, w: {}, wn: 0, se: [], nm: '', g: {}, o: {}, f: {}, fc: -1, gc: -1 };
+        const ic = (n, c = '') => `<span class="mi ${c}" aria-hidden="true">${n}</span>`;
+        const ST = ['1. Giriş', '2. Sunuş', '3. Alıştırma & Geri Bildirim', '4. Değerlendirme'], FS = [0, 4, 11, 16], SN = ['Kavram', 'Süreç', 'İlke', 'Ara Özet'], SF = [4, 6, 8, 10];
+        const W = (t, b, i = '') => `<div class="w"><div class="ti-wrap"><h2 class="ti">${i ? `<span class="ti-icon">${ic(i)}</span>` : ''}<span>${t}</span></h2></div>${b}</div>`;
+        const X = (k, i, t, d, c = '') => `<button class="op x ${c} ${S.o[k] ? '' : ''}" onclick="tg(this,'${k}')"><b>${ic(i)} ${t}${ic('expand_more', 'chev')}</b><span class="d"><span>${d}</span></span></button>`;
+        function tg(el, k) { el.classList.toggle('open'); S.o[k] = 1; chk() }
+        function discoverCard(el, k) {
+            S.o[k] = 1;
+            el.classList.add('discovered');
+            const st = el.querySelector('.ic-status');
+            if (st) st.innerHTML = ic('check_circle', 'okc') + ' İncelendi';
+            chk();
+        }
+        function openModal(id) { const m = $('#' + id); if (m) m.classList.add('open'); }
+        function closeModal(id) { const m = $('#' + id); if (m) m.classList.remove('open'); }
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal('info-modal'); });
+
+        const C = (i, t, d, c) => `<div class="cd ${c}"><div class="ic">${ic(i)}</div><h3>${t}</h3>${d ? `<p>${d}</p>` : ''}</div>`;
+        const N = (n, t, c) => `<div class="cd ${c}"><div class="nm">${n}</div><h3>${t}</h3></div>`;
+        const vid = (id, src, t, s, btn) => `<div class="vid"><video id="${id}" controls preload="metadata" src="${src}" onended="vd('${id}')" onerror="this.parentNode.classList.add('err')"></video><div class="ps">${ic('movie', 'bg')}<h3>${t}</h3><p>${s}</p><div><label class="b o">${ic('upload_file')} ${btn}<input type="file" accept="video/mp4" hidden onchange="lv(this,'${id}')"></label><button class="b" style="margin-top:6px" onclick="vd('${id}')">Videoyu Atla ${ic('skip_next')}</button></div></div></div>`;
+        function lv(i, id) { const f = i.files[0]; if (!f) return; const v = $('#' + id); v.parentNode.classList.remove('err'); v.src = URL.createObjectURL(f); v.play().catch(() => 0) }
+        function vd(id) { S.g[id] = 1; chk() }
+        function txt() { const c = $('#main').cloneNode(true); c.querySelectorAll('.mi').forEach(e => e.remove()); return c.textContent }
+        function say(t) { if (!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'tr-TR'; u.rate = .9; speechSynthesis.speak(u) }
+        function tts() { S.tts = !S.tts; $('#tt').innerHTML = ic(S.tts ? 'volume_up' : 'volume_off') + (S.tts ? ' Sesli Okuma: Açık' : ' Sesli Okuma: Kapalı'); $('#tt').setAttribute('aria-pressed', S.tts); if (S.tts) say(txt()); else if ('speechSynthesis' in window) speechSynthesis.cancel() }
+        function star(n) { S.stars += n; $('#st').textContent = S.stars; const b = $('#sb'); b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop') }
+        function cf() { for (let i = 0; i < 30; i++) { const s = document.createElement('span'); s.className = 'cf mi'; s.textContent = ['star', 'celebration', 'favorite'][i % 3]; s.style.color = ['#2563EB', '#F97316', '#10B981', '#EF4444'][i % 4]; s.style.left = Math.random() * 100 + '%'; s.style.animationDelay = Math.random() * 1.5 + 's'; document.body.appendChild(s); setTimeout(() => s.remove(), 5000) } }
+        const stepper = g => `<div class="stp">${SN.map((n, i) => `<button data-i="${SF[i]}" class="${g == i + 1 ? 'on' : g > i + 1 ? 'dn' : ''}" onclick="go(${SF[i]})">Adım ${i + 1}/4: ${n}</button>`).join(ic('chevron_right'))}</div>`;
+        const ok = (t) => `${ic('check_circle', 'okc')} ${t}`, no = (t) => `${ic('cancel', 'nc')} ${t}`;
+
+        /* GİRİŞ */
+        const rG1 = () => W('', vid('v1', './1116.mp4', 'Kerem’in Yarım Kalan Hikâyesi', 'Kerem ödevine yapay zekânın söylediğini yazdı ama sınıf arkadaşları güldü… Neler oldu?', 'Bilgisayardan Giriş Videosu Seç (.mp4)'), 'movie');
+        const rG2 = () => W('Merak Sorusu', `<div class="cd to question-box"><div class="q-icon">${ic('lightbulb')}</div><div>Kerem ödevinde “Türkiye’nin başkenti İstanbul’dur” dedi ama sınıf arkadaşları güldü! Kerem “Ama yapay zekâ bana böyle demişti” diyor. <b class="q-highlight">Sence yapay zekâ neden yanlış cevap vermiş olabilir?</b></div></div>
+<div class="g quiz-options">${[['A', 'Yapay zekâ şaka yapmayı çok sever.'], ['B', 'Yapay zekâ her şeyi ezbere bilmez; verilerden tahmin yürütürken yanılabilir.'], ['C', 'Kerem’in tableti bozulmuştur.']].map(([letter, t], i) => `<button class="op big opt-${letter.toLowerCase()} ${S.gc == i ? 'sel' : ''}" onclick="gs(this,${i})"><span class="opt-badge">${letter})</span><span class="opt-text">${t}</span></button>`).join('')}</div>
+<div class="rev ${S.gc >= 0 ? 'open' : ''}" id="gb"><div><div class="fb ok">${ic('thumb_up', 'okc')} Harika bir tahmin! Bakalım gerçek sebep neymiş, şimdi birlikte keşfedelim!</div></div></div>`, 'help');
+        function gs(el, i) { [...el.parentNode.children].forEach(b => b.classList.remove('sel')); el.classList.add('sel'); S.gc = i; S.g.gs = 1; $('#gb').classList.add('open'); chk() }
+        const rG3 = () => W('Neden Öğreniyoruz?', `<div class="g">${C('search', 'Gerçek Zekâyı Tanı', 'Günlük hayattaki hangi cihazın gerçekten yapay zekâ olduğunu hemen ayırt edeceksin.', 'tb')}${C('psychology', 'Sırrını Çöz', 'Yapay zekânın Kerem’e neden yanlış cevap verdiğini öğreneceksin.', 'to')}${C('verified_user', 'Hatasız Kullan', 'Ödevlerinde yapay zekâyı doğru ve güvenli kullanmayı öğreneceksin.', 'tg')}</div>`, 'rocket_launch');
+        const rG4 = () => W('Önbilgiler ve Zekâ Türleri', `<div class="cd to question-box" style="margin-bottom: 20px;">
+    <div class="q-icon">${ic('lightbulb')}</div>
+    <div>Aşağıdaki üç farklı zekâ ve makine türünü incele, <b class="q-highlight">aralarındaki temel farkları keşfet:</b></div>
+</div>
+<div class="info-card-grid">
+    ${[
+                ['person', 'İnsan Zekâsı', 'Düşünür, hisseder, duyguları ve vicdanı vardır. Bilginin doğruluğunu sorgular ve hatalarından ders çıkarır.', 'card-blue'],
+                ['computer', 'Sıradan Bilgisayar', 'Sadece insanların içine yazdığı kuralları uygular. Kendi kendine yeni bir kural öğrenemez veya düşünemez.', 'card-amber'],
+                ['smart_toy', 'Yapay Zekâ', 'Çok sayıda veri ve örnek görerek öğrenir. Yeni durumlar için tahmin yapar ancak insanlar gibi kusursuz değildir.', 'card-green']
+            ].map(([icon, title, desc, cls]) => `
+        <div class="interactive-card ${cls}">
+            <div class="ic-header">
+                <div class="ic-icon">${ic(icon)}</div>
+            </div>
+            <h3>${title}</h3>
+            <p>${desc}</p>
+        </div>
+    `).join('')}
+</div>`, 'lightbulb');
+
+        /* SUNUŞ */
+        const rK1 = () => W('Yapay Zekâ Nedir?', `<div class="cd tb" id="def"><p class="big">Yapay Zekâ: Bilgisayarların ve makinelerin, tıpkı insanlar gibi verilerden öğrenerek tahmin yapabilmesi, karar verebilmesi ve sorun çözebilmesi teknolojisidir.</p></div><p><button class="b" onclick="say($('#def').textContent)">${ic('volume_up')} Dinle</button></p>
+<div class="g">${N(1, 'Verilerden Öğrenir', 'tg')}${N(2, 'Deneyimle Gelişir', 'to')}${N(3, 'Yeni Durumlara Uyum Sağlar', 'tb')}</div>`, 'smart_toy');
+        const rK1b = () => W('Örnekler ve Zıt Örnekler', `<p style="margin:0 0 10px">Altı kartın hepsini aç.</p><div class="g2"><div class="col"><h3 style="margin:0">${ic('check_circle', 'okc')} Yapay Zekâ Örnekleri</h3>${X('e0', 'play_circle', '1. Video Öneri Sistemleri', 'İzlediğin çizgi filmleri analiz edip seveceğin yeni videoları tahmin eder.', 'g1')}${X('e1', 'mic', '2. Sesli Asistanlar', 'Konuşmanı anlar, sesini tanır ve sorularına cevap üretir.', 'g1')}${X('e2', 'photo_camera', '3. Görüntü Tanıma Kameraları', 'Binlerce fotoğraftan öğrendiği için kediyi, köpeği veya yüzleri tanır.', 'g1')}</div>
+<div class="col"><h3 style="margin:0">${ic('cancel', 'nc')} Zıt Örnekler (Yapay Zekâ DEĞİLDİR!)</h3>${X('e3', 'sensor_door', '1. Otomatik Market Kapısı', 'Sadece sensörü hareket algıladığında açılır; öğrenmez ve düşünmez.', 'r1')}${X('e4', 'calculate', '2. Standart Hesap Makinesi', 'İçine önceden yazılmış matematik kurallarını uygular; kendi kendine yeni bir işlem öğrenemez.', 'r1')}${X('e5', 'local_laundry_service', '3. Zaman Ayarlı Çamaşır Makinesi', 'Sadece önceden ayarlanan süreyi geri sayar; kıyafetin kirliliğine bakıp kendi kendine yeni bir yıkama yöntemi öğrenemez.', 'r1')}</div></div>`, 'compare_arrows');
+        const FL = [
+            {
+                title: 'Veri Toplama',
+                step: 1,
+                theme: 'blue',
+                icon: 'database',
+                who: 'İnsan (Geliştirici & Mühendis)',
+                whoIcon: 'person',
+                desc: 'Yapay zekâ hiçbir şeyi kendiliğinden bilemez. İlk adımda uzman mühendisler, sisteme milyonlarca metin, ses veya fotoğraf örneği yükler.',
+                example: 'Örneğin; kedileri tanıması istenen bir yapay zekâya mühendisler 100.000 farklı kedi fotoğrafı ve bilgisi yükler.'
+            },
+            {
+                title: 'Eğitim ve Örüntü Bulma',
+                step: 2,
+                theme: 'purple',
+                icon: 'model_training',
+                who: 'Yapay Zekâ Modeli',
+                whoIcon: 'smart_toy',
+                desc: 'Yüklenen bu devasa veriler incelenir. Yapay zekâ örnekler arasındaki benzerlikleri, ortak özellikleri ve gizli desenleri (örüntüleri) kendi kendine keşfeder.',
+                example: 'Örneğin; kedi fotoğraflarına bakıp sivri kulak, bıyık ve göz şekli arasındaki ortak benzerlik kuralını kendi kendine çözer.'
+            },
+            {
+                title: 'Tahmin ve Cevap Üretme',
+                step: 3,
+                theme: 'green',
+                icon: 'lightbulb',
+                who: 'Yapay Zekâ Modeli',
+                whoIcon: 'smart_toy',
+                desc: 'Artık öğrenme tamamlandı! Yeni bir fotoğraf veya soru geldiğinde, öğrendiği örüntülere dayanarak en yüksek ihtimalli cevabı tahmin eder.',
+                example: 'Örneğin; önüne daha önce hiç görmediği yeni bir kedi resmi konduğunda: “Bu %98 ihtimalle bir kedidir!” diyerek doğru tahminde bulunur.'
+            }
+        ];
+
+        const fbx = i => {
+            const f = FL[i];
+            return `<div class="step-detail-card theme-${f.theme}">
+                <div class="sd-header">
+                    <div class="sd-title-wrap">
+                        <div class="sd-icon">${ic(f.icon)}</div>
+                        <div>
+                            <span class="sd-step-num">Adım ${f.step}</span>
+                            <h3 class="sd-title">${f.title}</h3>
+                        </div>
+                    </div>
+                    <div class="who-badge badge-${f.theme}">
+                        <span class="who-label">Kim Yapar?</span>
+                        <span class="who-val">${ic(f.whoIcon)} ${f.who}</span>
+                    </div>
+                </div>
+                <div class="sd-body">
+                    <p class="sd-desc">${f.desc}</p>
+                    <div class="sd-example">
+                        <span class="sd-example-badge">${ic('lightbulb')} Somut Örnek:</span>
+                        <span>${f.example}</span>
+                    </div>
+                </div>
+            </div>`;
+        };
+
+        const fl = () => `<div class="flow" id="fw">${FL.map((f, i) => `
+            <button class="op st step-btn theme-${f.theme} ${S.f[i] ? 'sel' : ''} ${S.fc == i ? 'cur' : ''}" onclick="fs(${i})">
+                <div class="st-num">${i + 1}</div>
+                <div class="st-content">
+                    <span class="st-title">${ic(f.icon)} Adım ${i + 1} – ${f.title}</span>
+                    <span class="mini-who badge-${f.theme}">${ic(f.whoIcon)} Kim Yapar? ${f.theme === 'blue' ? 'İnsan' : 'Yapay Zekâ'}</span>
+                </div>
+            </button>
+            ${i < 2 ? `<span class="ar ${S.f[i] ? 'on' : ''}">${ic('arrow_forward')}</span>` : ''}
+        `).join('')}</div>
+        <div class="rev ${S.fc >= 0 ? 'open' : ''}" id="fi"><div>${S.fc >= 0 ? fbx(S.fc) : ''}</div></div>`;
+
+        function fs(i) {
+            S.f[i] = 1;
+            S.fc = i;
+            document.querySelectorAll('#fw .st').forEach((b, x) => {
+                b.classList.toggle('sel', !!S.f[x]);
+                b.classList.toggle('cur', x == i);
+            });
+            document.querySelectorAll('#fw .ar').forEach((a, x) => a.classList.toggle('on', !!S.f[x]));
+            $('#fi>div').innerHTML = fbx(i);
+            $('#fi').classList.add('open');
+            chk();
+        }
+
+        const rK2 = () => W('Yapay Zekâ Nasıl Öğrenir?', `<div class="cd to question-box" style="margin-bottom: 20px;">
+            <div class="q-icon">${ic('model_training')}</div>
+            <div>Yapay zekâ öğrenirken bu 3 temel aşamadan geçer. <b class="q-highlight">Her adıma dokunarak sürecin nasıl işlediğini ve kimin sorumlu olduğunu keşfet:</b></div>
+        </div>
+        ${fl()}`, 'model_training');
+        const rK2b = () => W('Kerem Neden Yanıldı?', `<div class="bub" style="margin-bottom:16px">${ic('face')} Ama yapay zekâ bana böyle demişti!</div><div class="cd to"><p class="big">Yapay zekâ bir ansiklopedi gibi kesin bilgileri ezberden okumaz; kelimeleri olasılıkla tahmin eder. Verilerde “Türkiye” ve “İstanbul” kelimeleri çok sık yan yana geçtiği için yapay zekâ yanlış bir tahmin (halüsinasyon) yaptı!</p></div>`, 'lightbulb');
+        const rK3 = () => W('Doğru ve Etik Kullanma İlkeleri', `<div class="cd tb big" style="margin-bottom:16px">Yapay zekâ bizim yerimize düşünen bir öğretmen değil, bize yardımcı olan ama hata yapabilen bir araçtır.</div><p style="margin:0 0 10px">Üç kalkanın hepsine dokun.</p><div class="g">${X('s0', 'search', 'Doğrula İlkesi', 'Yapay zekânın verdiği bilgileri mutlaka ders kitabından veya güvenilir kaynaklardan kontrol et.', 'g1')}${X('s1', 'edit', 'Kopyalama, Üret İlkesi', 'Ödevlerini doğrudan kopyalamak yerine fikir almak ve kendi cümlelerini kurmak için kullan.', 'g1')}${X('s2', 'lock', 'Gizliliğini Koru İlkesi', 'Yapay zekâ sohbetlerine adını, soyadını, ev adresini veya okul bilgilerini asla yazma.', 'g1')}</div>`, 'shield');
+        const rK3b = () => W('Doğru Kullanım mı, İhlal mi?', `<div class="g2"><div class="cd tg"><div class="ic">${ic('check_circle')}</div><h3>Doğru</h3><p class="lead">“Sunumum için bana 3 başlık fikri verir misin?” deyip seçtiği başlığın içini ders kitabından araştırarak doldurmak.</p></div><div class="cd tr"><div class="ic">${ic('cancel')}</div><h3>İhlal</h3><p class="lead">Kerem gibi yapay zekânın yazdığı metni hiç kontrol etmeden ödevine yapıştırmak.</p></div></div>`, 'balance');
+        const rK4 = () => W('Öğrendiklerimizi Toparlayalım!', `<div class="g">${C('extension', 'Kavram', 'Yapay zekâ verilerden öğrenir; market kapısı ve hesap makinesi yapay zekâ değildir.', 'tb')}${C('settings', 'Süreç', 'Veri toplama → eğitim ve örüntü bulma → tahmin üretme. Bu yüzden bazen yanılır.', 'to')}${C('verified_user', 'İlke', 'Doğrula, kopyalama üret, gizliliğini koru.', 'tg')}</div><p style="text-align:center;margin-top:18px"><button class="b o" onclick="go(11)">Hazırım! Alıştırma Etkinliklerine Geç ${ic('arrow_forward')}</button></p>`, 'summarize');
+
+        /* ALIŞTIRMA */
+        const QZ = {
+            a1: { lab: [['psychology', 'Yapay Zekâdır'], ['settings', 'Sıradan Makinedir']], it: [['Yüz tanıyan telefon kilidi', 0, 'Yüz verilerinden öğrenir ve seni tanır.'], ['Otomatik açılan market kapısı', 1, 'Sadece hareket sensörüyle açılır, öğrenmez.'], ['İzlediğin çizgi filme göre öneri sunan platform', 0, 'İzleme alışkanlıklarından tahmin yapar.'], ['Su kaynayınca kapanan su ısıtıcısı', 1, 'Sadece ısı ayarı dolunca devreyi keser.'], ['Sesli komutla alarm kuran asistan', 0, 'İnsan sesini ve komutları anlamayı öğrenmiştir.'], ['Klasik hesap makinesi', 1, 'İçine yazılan sabit kurallarla hesap yapar.'], ['Fotoğraftaki kediyi tanıyan kamera', 0, 'Binlerce kedi fotoğrafından eğitilmiştir.'], ['Zaman ayarlı çamaşır makinesi', 1, 'Önceden ayarlanan süreyi geri sayar.']] }
+            /* Etkinlik 3 (Yorum satırına alındı - devre dışı)
+            , a3: { lab: [['check_circle', 'Bilgi Doğru'], ['warning', 'Hatalı Bilgi (Kontrol Et!)']], it: [['Türkiye’nin başkenti İstanbul’dur.', 1, 'Bu bilgi hatalı! Kelime sıklığından yanlış tahmin yapıldı, başkentimiz Ankara’dır.'], ['Türkiye üç tarafı denizlerle çevrili bir yarımadadır.', 0, 'Bu bilgi doğrudur. Yine de önemli bilgileri kaynaktan kontrol etmek iyidir.'], ['Güneş sistemindeki en büyük gezegen Mars’tır.', 1, 'Bu bilgi hatalı! Yapay zekâ bazen uydurma bilgi üretebilir, en büyük gezegen Jüpiter’dir.'], ['Suyun donma sıcaklığı deniz seviyesinde 0 derecedir.', 0, 'Bu bilgi doğrudur.']] }
+            */
+        };
+        function qR(k) {
+            const Q = QZ[k], s = S.q[k] || (S.q[k] = { n: 0, t: 0, ok: 0, f: '', w: -1 }), N = Q.it.length;
+            if (s.n >= N) return `<div class="fb ok big">${ic('celebration')} Etkinliği tamamladın! “Sonraki Adım” ile devam edebilirsin.</div>`;
+            const it = Q.it[s.n];
+            return `<div class="dots">${Q.it.map((_, i) => `<i class="${i < s.n ? 'on' : i == s.n ? 'cur' : ''}"></i>`).join('')}</div>
+${k == 'a3' ? `<p style="margin:0 0 6px">${ic('smart_toy')} Yapay Zekâ Sohbeti</p><div class="bub">${it[0]}</div>` : `<div class="cd tb big" style="text-align:center">${it[0]}</div>`}
+<div class="g2" style="margin-top:14px">${Q.lab.map((l, i) => `<button class="op big ${s.ok && i == it[1] ? 'ok' : s.w == i && !s.ok ? 'no' : ''}" ${s.ok ? 'disabled' : ''} onclick="qA('${k}',${i})">${ic(l[0])} ${l[1]}</button>`).join('')}</div>
+${s.f ? `<div class="fb ${s.ok ? 'ok' : 'no'}">${s.f}</div>` : ''}
+${s.ok ? `<p style="margin:12px 0 0;text-align:right"><button class="b o" onclick="qN('${k}')">${s.n + 1 < N ? 'İlerle' : 'Etkinliği Bitir'} ${ic('arrow_forward')}</button></p>` : ''}`
+        }
+        function qA(k, i) {
+            const s = S.q[k], it = QZ[k].it[s.n];
+            if (i == it[1]) { s.ok = 1; s.f = ok('Doğru! ' + it[2]); if (!s.t) star(1) } else { s.t++; s.w = i; s.f = no('Bu seçim doğru değil. ' + it[2] + ' Doğru cevabı bulana kadar tekrar dene!') }
+            $('#act').innerHTML = qR(k)
+        }
+        function qN(k) { const s = S.q[k]; s.n++; s.t = 0; s.ok = 0; s.f = ''; s.w = -1; if (s.n >= QZ[k].it.length) S.done[k] = 1; $('#act').innerHTML = qR(k); chk() }
+        const rA1 = () => W('Etkinlik 1: Yapay Zekâ mı, Sıradan Makine mi?', `<div id="act">${qR('a1')}</div>`, 'category');
+        // const rA3 = () => W('Etkinlik 3: Gerçek mi, Yapay Zekâ Hatası mı?', `<div id="act">${qR('a3')}</div>`, 'fact_check'); /* Etkinlik 3 yorum satırına alındı */
+
+        const PL = {
+            a2: { L: ['Veri Toplama', 'İnsan / Geliştirici', 'Eğitim ve Örüntü Bulma', 'Yapay Zekâ Modeli', 'Tahmin Üretme', 'Yapay Zekâ Modeli'], A: { n0: ['Veri Toplama', 'Her şey örnek toplamakla başlar: önce veri gelir.'], w0: ['İnsan / Geliştirici', 'Verileri yükleyen yapay zekâ değil, mühendislerdir.'], n1: ['Eğitim ve Örüntü Bulma', 'Veriler yüklendikten sonra benzerlikler ve desenler bulunur.'], w1: ['Yapay Zekâ Modeli', 'Desenleri bulan modelin kendisidir.'], n2: ['Tahmin Üretme', 'Son adımda soruya cevap tahmin edilir.'], w2: ['Yapay Zekâ Modeli', 'Cevabı tahmin eden yine modeldir.'] } },
+            d1: { L: ['Veriler', 'İnsan', 'Hata / Yanlış Tahmin', 'Hesap Makinesi', 'Doğrula'], A: { b0: ['Veriler', 'Yapay zekâ fotoğraf, metin, ses gibi neyle öğrenir?'], b1: ['İnsan', 'Verileri yükleyen yapay zekâ değil, mühendisler yani insanlardır.'], b2: ['Hata / Yanlış Tahmin', 'Kerem’in başına gelen şeyi düşün.'], b3: ['Hesap Makinesi', 'Yapay zekâ olmayan, sabit kurallarla çalışan makine hangisi?'], b4: ['Doğrula', 'Bilgiyi ders kitabından veya güvenilir kaynaktan ne yapmalıydın?'] } }
+        };
+        const sl = (k, id) => { const p = S.p[k], f = p.f[id]; return `<button data-k="${k}" data-s="${id}" class="op ${f != null ? 'ok' : p.e[id] ? 'no' : 'em'} ${p.last == id ? 'pl' : ''}" onclick="pS('${k}','${id}')">${f != null ? PL[k].L[f] : ic('help') + ' ?'}</button>` };
+        function plR(k) {
+            const p = S.p[k] || (S.p[k] = { f: {}, sel: -1, m: '', mk: '', e: {}, last: '' }); let lay;
+            if (k == 'a2') lay = `<div class="g">${[0, 1, 2].map((v, i) => `<div class="cd ${['tb', 'to', 'tg'][i]}"><div class="nm" style="margin-bottom:6px">${i + 1}</div><div>Adım adı:</div>${sl(k, 'n' + i)}<div>Sorumlu:</div>${sl(k, 'w' + i)}</div>`).join('')}</div>`;
+            else lay = `<div class="cd tb big" style="text-align:center;margin-bottom:14px">${ic('smart_toy')} YAPAY ZEKÂ</div><div class="g">${[['b0', '… ile öğrenir', 'tb'], ['b1', 'Verileri yükleyen sorumlu: …', 'to'], ['b2', 'Bazen … yapabilir', 'tr'], ['b3', 'Zıt Örneği: …', 'tg'], ['b4', 'Altın Kural: Bilgiyi …', 'to']].map(b => `<div class="cd ${b[2]}"><div>${b[1]}</div>${sl(k, b[0])}</div>`).join('')}</div>`;
+            const tr = PL[k].L.map((l, i) => Object.values(p.f).includes(i) ? '' : `<button class="op ${p.sel == i ? 'sel' : ''}" onpointerdown="pd(event,'${k}',${i})" onclick="if(event.detail===0)pL('${k}',${i})">${l}</button>`).join('');
+            return `${lay}<p style="margin:12px 0 0">Etiketi sürükleyip doğru kutuya bırak (ya da etiketi seçip kutuya dokun):</p><div class="tray">${tr}</div>${p.m ? `<div class="fb ${p.mk}">${p.m}</div>` : ''}`
+        }
+        function pL(k, i) { S.p[k].sel = i; S.p[k].m = ''; S.p[k].last = ''; $('#pl').innerHTML = plR(k) }
+        function pS(k, id) {
+            const p = S.p[k], A = PL[k].A, a = A[id]; if (p.f[id] != null) return; p.last = '';
+            if (p.sel < 0) { p.m = no('Önce alttaki etiketlerden birini seç, sonra bir kutuya dokun.'); p.mk = 'no' }
+            else if (PL[k].L[p.sel] == a[0]) { p.f[id] = p.sel; p.sel = -1; p.last = id; p.m = ok('Doğru yerleştirdin!'); p.mk = 'ok'; if (!p.e[id]) star(1); if (Object.keys(p.f).length == Object.keys(A).length) { S.done[k] = 1; p.m = ic('celebration') + ' Harika! Tüm kutuları doğru doldurdun.' } }
+            else { p.e[id] = 1; p.sel = -1; p.m = no('Bu etiket bu kutuya uymuyor. İpucu: ' + a[1] + ' Etiket geri döndü, tekrar dene!'); p.mk = 'no' }
+            $('#pl').innerHTML = plR(k); chk()
+        }
+        /* Sürükle-bırak (fare ve dokunmatik) */
+        let DR = null;
+        function pd(e, k, i) { if (e.button > 0) return; const el = e.currentTarget, r = el.getBoundingClientRect(); DR = { k, i, el, x: e.clientX, y: e.clientY, dx: e.clientX - r.left, dy: e.clientY - r.top, mv: 0, g: null, t: null }; el.setPointerCapture(e.pointerId); el.onpointermove = dm; el.onpointerup = du; el.onpointercancel = dc }
+        function dm(e) {
+            if (!DR) return; if (!DR.mv) { if (Math.hypot(e.clientX - DR.x, e.clientY - DR.y) < 6) return; DR.mv = 1; const g = DR.el.cloneNode(true); g.removeAttribute('onpointerdown'); g.removeAttribute('onclick'); g.style.cssText = 'position:fixed;z-index:30;pointer-events:none;margin:0;width:' + DR.el.offsetWidth + 'px;transform:rotate(-3deg) scale(1.06);box-shadow:6px 8px 0 var(--ink)'; document.body.appendChild(g); DR.g = g; DR.el.style.opacity = .35 }
+            DR.g.style.left = e.clientX - DR.dx + 'px'; DR.g.style.top = e.clientY - DR.dy + 'px';
+            const h = document.elementFromPoint(e.clientX, e.clientY), t = h && h.closest('[data-s][data-k="' + DR.k + '"]'); if (t !== DR.t) { DR.t && DR.t.classList.remove('hov'); DR.t = t; t && t.classList.add('hov') }
+        }
+        function du(e) {
+            if (!DR) return; const { k, i, el, g, t, mv } = DR; DR = null; el.onpointermove = el.onpointerup = el.onpointercancel = null; try { el.releasePointerCapture(e.pointerId) } catch (_) { }
+            el.style.opacity = ''; t && t.classList.remove('hov'); if (!mv) { pL(k, i); return }
+            const p = S.p[k], r = el.getBoundingClientRect(), emp = t && p.f[t.dataset.s] == null, good = emp && PL[k].L[i] == PL[k].A[t.dataset.s][0];
+            if (emp) { p.sel = i; pS(k, t.dataset.s) } else { p.sel = -1; p.m = ''; $('#pl').innerHTML = plR(k) }
+            if (good) g.remove(); else { g.style.transition = 'left .35s ease,top .35s ease,transform .35s ease'; g.style.left = r.left + 'px'; g.style.top = r.top + 'px'; g.style.transform = 'none'; setTimeout(() => g.remove(), 380) }
+        }
+        function dc() { if (!DR) return; DR.g && DR.g.remove(); DR.el.style.opacity = ''; DR.t && DR.t.classList.remove('hov'); DR = null }
+        const rA2 = () => W('Etkinlik 2: Yapay Zeka Öğrenme Şemasını Tamamla', `<div id="pl">${plR('a2')}</div>`, 'account_tree');
+
+        const WD = [['VERİ', 'Yapay zekânın öğrenmek için kullandığı fotoğraf, metin ve ses gibi ham bilgiler.'], ['TAHMİN', 'Yapay zekânın öğrendiği desenlere bakarak en yüksek ihtimalli cevabı üretmesi.'], ['EĞİTİM', 'Yapay zekâ modelinin yüklenen örnekler arasındaki ilişkileri keşfetme aşaması.'], ['DOĞRULAMA', 'Yapay zekânın verdiği bilgiyi kitap veya güvenilir kaynaklardan kontrol etme ilkesi.'], ['GİZLİLİK', 'Yapay zekâ sohbetlerine adımızı, adresimizi ve okul bilgilerimizi yazmama kuralı.']];
+        function wR() {
+            const n = S.wn; if (n >= 5) return `<div class="fb ok big">${ic('celebration')} Bulmacayı tamamladın! “Sonraki Adım” ile devam edebilirsin.</div>`; const w = WD[n][0], d = S.w[n];
+            return `<div class="dots">${WD.map((_, i) => `<i class="${S.w[i] ? 'on' : i == n ? 'cur' : ''}"></i>`).join('')}</div><p class="lead" style="margin:0"><b>${n + 1}/5</b> ${WD[n][1]} <small>(${[...w].length} harf)</small></p>
+<div class="bx">${[...w].map((ch, j) => `<input maxlength="1" inputmode="none" autocomplete="off" data-c="${j}" class="${d ? 'ok' : ''}" value="${d ? ch : ''}" oninput="wi(this)" onfocus="S.a=this">`).join('')}</div>
+<div class="fb ${d ? 'ok' : ''}" id="wm" style="display:${d ? 'block' : 'none'}">${d ? ok('Doğru! “' + w + '” kavramını buldun.') : ''}</div>
+${d ? `<p style="margin:12px 0 0;text-align:right"><button class="b o" onclick="S.wn++;$('#act').innerHTML=wR();chk()">${n < 4 ? 'Sonraki Kelime' : 'Bulmacayı Bitir'} ${ic('arrow_forward')}</button></p>` : `<div class="kb">${[...'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ'].map(c => `<button onclick="kp('${c}')">${c}</button>`).join('')}<button onclick="kp('')">${ic('backspace')}</button><button class="hn" id="hb" onclick="hint()">${ic('lightbulb')} Harf İste (−1 yıldız)</button></div>`}`
+        }
+        function wi(e) {
+            e.value = e.value.toLocaleUpperCase('tr-TR'); const n = S.wn, r = [...document.querySelectorAll('#act .bx input')], m = $('#wm'); r.forEach(x => x.classList.remove('no')); m.style.display = 'none';
+            const nx = r[+e.dataset.c + 1]; if (e.value && nx) nx.focus(); if (r.some(x => !x.value)) return;
+            const v = r.map(x => x.value).join(''), w = WD[n][0];
+            if (v == w) { S.w[n] = 1; star(1); if (n == 4) S.done.a4 = 1; $('#act').innerHTML = wR() }
+            else { r.forEach(x => x.classList.add('no')); m.style.display = 'block'; m.className = 'fb no'; m.innerHTML = no('Henüz doğru değil. İpucu: kelime ' + [...w].length + ' harfli ve “' + w[0] + '” harfiyle başlıyor. Harfleri değiştirip tekrar dene!') }
+        }
+        function kp(c) { const e = S.a && S.a.isConnected ? S.a : $('#act .bx input'); e.value = c; wi(e); if (!c) e.focus() }
+        /* Harf iste: slot makinesi gibi dönen harf */
+        function spin(inp, ch, done) {
+            const r = inp.getBoundingClientRect(), L = [...'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ'], h = r.height, N = 16, rl = document.createElement('div'), st = document.createElement('div');
+            rl.className = 'reel'; rl.style.cssText = 'left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + h + 'px'; st.className = 'strip';
+            for (let i = 0; i < N; i++) { const c = document.createElement('div'); c.textContent = i == N - 1 ? ch : L[Math.floor(Math.random() * L.length)]; c.style.height = h + 'px'; st.appendChild(c) }
+            rl.appendChild(st); document.body.appendChild(rl); void st.offsetWidth; st.style.transform = 'translateY(' + (-(N - 1) * h) + 'px)'; setTimeout(() => { rl.remove(); done() }, 1300)
+        }
+        function hint() {
+            if (S.hl) return; const w = [...WD[S.wn][0]], r = [...document.querySelectorAll('#act .bx input')], c = r.map((x, k) => x.value !== w[k] ? k : -1).filter(k => k >= 0); if (!c.length) return; const j = c[Math.floor(Math.random() * c.length)];
+            S.hl = 1; $('#hb').disabled = true; star(-1); const inp = r[j];
+            spin(inp, w[j], () => { S.hl = 0; if (!inp.isConnected) return; inp.value = w[j]; inp.classList.add('pl'); wi(inp) })
+        }
+        const rA4 = () => W('Etkinlik 3: Kavram Bulmacası', `<div class="cd" id="act">${wR()}</div>`, 'grid_view');
+        const rE1 = () => W('Başarım Özet Kartı', `<div class="cd tg" style="text-align:center"><div class="ic" style="margin:auto;width:84px;height:84px;font-size:46px">${ic('emoji_events')}</div><p class="big">Tamamlanan görev: 3/3 · Kazanılan yıldız: ${ic('star', 'nc')} ${S.stars}</p><p class="lead">${ok('Sınıflandırma')} &nbsp; ${ok('Şema')} &nbsp; ${ok('Bulmaca')}<br>Harikasın! Çalışkanlığın seni çok ileri götürecek.</p></div>`, 'workspace_premium');
+        const rE2 = () => W('Öğretmeninin Mesajını İzle', vid('v2', './assets/ogretmen_nasihat.mp4', 'Öğretmeninin Mesajı', 'Öğretmeninin sana özel nasihat videosu burada oynayacak.', 'Bilgisayardan Nasihat Videosu Seç (.mp4)'), 'videocam');
+
+        /* DEĞERLENDİRME */
+        const rD1 = () => W('Dijital Kavram Haritasını Tamamla', `<div id="pl">${plR('d1')}</div>`, 'hub');
+        const SE = ['Yapay zekâ ile sıradan makineler arasındaki farkı örneklerle açıklayabilirim.', 'Yapay zekânın veri toplama, eğitim ve tahmin adımlarıyla nasıl öğrendiğini sıralayabilirim.', 'Yapay zekânın neden bazen yanlış bilgi üretebileceğini açıklayabilirim.', 'Yapay zekâyı kullanırken kişisel bilgilerimi koruyup cevapları mutlaka doğrularım.'], SO = [['sentiment_very_satisfied', 'Evet, Çok İyi Anladım'], ['sentiment_neutral', 'Kısmen Anladım'], ['replay', 'Tekrar Etmeliyim']], SR = [4, 6, 7, 8];
+        const rD2 = () => W('Kendimi Değerlendiriyorum', `<div class="col">${SE.map((t, i) => `<div class="cd"><p style="margin:0 0 6px"><b>${i + 1}.</b> ${t}</p><div class="g" id="sg${i}">${SO.map((o, j) => `<button class="op ${S.se[i] === j ? 'sel' : ''}" onclick="se(${i},${j})">${ic(o[0])} ${o[1]}</button>`).join('')}</div></div>`).join('')}
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><input id="nm" maxlength="30" placeholder="Adın (isteğe bağlı)" value="${S.nm.replace(/"/g, '')}" style="font:inherit;padding:10px;border-radius:12px;border:3px solid var(--ink);background:var(--cd);color:var(--tx)"><button class="b o" onclick="cert()">${ic('workspace_premium')} Belgemi Oluştur</button><span id="ce"></span></div></div>`, 'rate_review');
+        function se(i, j) { S.se[i] = j;[...document.querySelectorAll('#sg' + i + ' .op')].forEach((b, x) => b.classList.toggle('sel', x == j)) }
+        function cert() { if ([0, 1, 2, 3].some(i => S.se[i] == null)) { $('#ce').innerHTML = no('Lütfen dört maddeyi de işaretle.'); return } S.nm = $('#nm').value.trim(); S.g.cert = 1; go(18) }
+        function rCert() {
+            const weak = [0, 1, 2, 3].filter(i => S.se[i] > 0);
+            return W('Belgen Hazır!', `<div class="cert"><h2 style="margin:0;color:var(--or)">${ic('school')} 5. Sınıf Yapay Zekâ Atölyesi Tamamlama Belgesi</h2><p class="big" id="cn"></p><p class="lead">BTY.5.1.4 “Yapay zekâ ile ilgili temel kavramları ve özellikleri sorgulayabilme” kazanımı çalışmasını tamamlamıştır.<br>${ic('star', 'nc')} ${S.stars} yıldız · Kasım 2026</p>
+${weak.length ? `<p><b>Şu konuları tekrar edebilirsin:</b></p>${weak.map(i => `<button class="b o" style="margin:4px" onclick="go(${SR[i]})">${i + 1}. madde ${ic('arrow_forward')} ilgili Sunuş adımı</button>`).join('')}` : `<p class="lead"><b>Tüm maddeleri çok iyi anladın, tebrikler!</b></p>`}<p><button class="b" onclick="window.print()">${ic('print')} Yazdır</button></p></div>`, 'workspace_premium')
+        }
+
+        /* YÖNLENDİRME */
+        const SC = [[0, 0, rG1], [0, 0, rG2], [0, 0, rG3], [0, 0, rG4], [1, 1, rK1], [1, 1, rK1b], [1, 2, rK2], [1, 2, rK2b], [1, 3, rK3], [1, 3, rK3b], [1, 4, rK4], [2, 0, rA1], [2, 0, rA2], /* [2, 0, rA3], (Etkinlik 3 devre dışı) */ [2, 0, rA4], [2, 0, rE1], [2, 0, rE2], [3, 0, rD1], [3, 0, rD2], [3, 0, rCert]];
+        const all = (o, ks) => ks.every(k => o[k]);
+        const GT = { 0: () => S.g.v1, 1: () => S.g.gs, 5: () => all(S.o, ['e0', 'e1', 'e2', 'e3', 'e4', 'e5']), 6: () => all(S.f, [0, 1, 2]), 8: () => all(S.o, ['s0', 's1', 's2']), 11: () => S.done.a1, 12: () => S.done.a2, /* 13: a3 devre dışı */ 13: () => S.done.a4, 15: () => S.g.v2, 16: () => S.done.d1, 17: () => S.g.cert };
+        function mx() { for (let i = 0; i < SC.length; i++)if (GT[i] && !GT[i]()) return i; return SC.length - 1 }
+        function chk(p = 1) {
+            const m = mx(), nx = $('#nx'), was = nx.disabled, can = S.i < m, last = S.i == SC.length - 1; nx.disabled = !can; $('#pv').disabled = S.i == 0;
+            if (p && can && was) { nx.classList.add('rdy'); setTimeout(() => nx.classList.remove('rdy'), 1300) }
+            $('#ct').innerHTML = can || last ? (S.i + 1) + ' / ' + SC.length : ic('lock') + ' Devam etmek için bu adımı tamamla';
+            document.querySelectorAll('[data-i]').forEach(b => b.disabled = +b.dataset.i > m); $('#st').textContent = S.stars
+        }
+        function go(i) { S.i = Math.max(0, Math.min(i, mx(), SC.length - 1)); S.seen.add(S.i); draw() }
+        function draw() {
+            const [st, g, f] = SC[S.i];
+            $('#sg').innerHTML = ST.map((t, k) => `<button class="${k == st ? 'on' : ''}" data-i="${FS[k]}" onclick="go(${FS[k]})">${t}</button>`).join('');
+            const p = Math.round(S.seen.size / SC.length * 100); $('#pb').style.width = p + '%'; $('#pc').textContent = p + '%';
+            $('#main').innerHTML = (g ? stepper(g) : '') + (g ? `<div style="margin:auto 0;width:100%">${f()}</div>` : f()); $('#main').scrollTop = 0;
+            chk(0); if (f == rE1 || f == rCert) cf();
+            if (S.tts) say(txt())
+        }
+        draw();
+    </script>
+    <!-- DERS HEDEFLERİ POPUP MODAL -->
+    <div id="info-modal" class="modal-overlay" onclick="if(event.target===this)closeModal('info-modal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="mi" style="color:#D97706">track_changes</span> Bu Dersin Sonunda;
+                </div>
+                <button class="modal-close" onclick="closeModal('info-modal')" aria-label="Kapat">
+                    <span class="mi">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="goal-list">
+                    <li>
+                        <span class="goal-num">1</span>
+                        <div><b>Yapay Zekâyı Tanıma:</b> Yapay zekânın ne olduğunu günlük hayattan örneklerle
+                            açıklayabileceksin.</div>
+                    </li>
+                    <li>
+                        <span class="goal-num">2</span>
+                        <div><b>Öğrenme Sürecini Kavrama:</b> Yapay zekânın verilerle nasıl öğrendiğini adım adım
+                            sıralayabileceksin.</div>
+                    </li>
+                    <li>
+                        <span class="goal-num">3</span>
+                        <div><b>Doğru ve Güvenli Kullanım:</b> Yapay zekâyı kullanırken uyman gereken altın kuralları
+                            uygulayabileceksin.</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="b o" onclick="closeModal('info-modal')">Anladım, Harika! <span
+                        class="mi">thumb_up</span></button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

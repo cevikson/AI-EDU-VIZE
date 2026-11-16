@@ -1,0 +1,5 @@
+# Backup files
+1116_original_hevc.mp4
+*.tmp
+.DS_Store
+Thumbs.db
