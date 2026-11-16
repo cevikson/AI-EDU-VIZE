@@ -1970,7 +1970,7 @@
         const $ = s => document.querySelector(s);
         const S = { cover: true, i: 0, stars: 0, seen: new Set([0]), tts: 0, sfx: 1, q: {}, p: {}, done: {}, w: {}, wn: 0, se: [], nm: '', g: {}, o: {}, f: {}, fc: -1, gc: -1 };
         const ic = (n, c = '') => `<span class="mi ${c}" aria-hidden="true">${n}</span>`;
-        const ST = ['1. Giriş', '2. Sunuş', '3. Alıştırma & Geri Bildirim', '4. Değerlendirme'], FS = [0, 4, 11, 16], SN = ['Kavram', 'Süreç', 'İlke', 'Ara Özet'], SF = [4, 6, 8, 10];
+        const ST = ['1. Giriş', '2. Sunuş', '3. Alıştırma & Geri Bildirim', '4. Değerlendirme'], FS = [0, 4, 11, 15], SN = ['Kavram', 'Süreç', 'İlke', 'Ara Özet'], SF = [4, 6, 8, 10];
         const W = (t, b, i = '') => `<div class="w"><div class="ti-wrap"><h2 class="ti">${i ? `<span class="ti-icon">${ic(i)}</span>` : ''}<span>${t}</span></h2></div>${b}</div>`;
         const X = (k, i, t, d, c = '') => `<button class="op x ${c} ${S.o[k] ? '' : ''}" onclick="tg(this,'${k}')"><b>${ic(i)} ${t}${ic('expand_more', 'chev')}</b><span class="d"><span>${d}</span></span></button>`;
         function tg(el, k) { el.classList.toggle('open'); S.o[k] = 1; sound('select'); chk() }
@@ -2261,7 +2261,7 @@ ${d ? `<p style="margin:12px 0 0;text-align:right"><button class="b o" onclick="
         }
         const rA4 = () => W('Etkinlik 3: Kavram Bulmacası', `<div class="cd" id="act">${wR()}</div>`, 'grid_view');
         const rE1 = () => W('Başarım Özet Kartı', `<div class="cd tg" style="text-align:center"><div class="ic" style="margin:auto;width:84px;height:84px;font-size:46px">${ic('emoji_events')}</div><p class="big">Tamamlanan görev: 3/3 · Kazanılan yıldız: ${ic('star', 'nc')} ${S.stars}</p><p class="lead">${ok('Sınıflandırma')} &nbsp; ${ok('Şema')} &nbsp; ${ok('Bulmaca')}<br>Harikasın! Çalışkanlığın seni çok ileri götürecek.</p></div>`, 'workspace_premium');
-        const rE2 = () => W('Öğretmeninin Mesajını İzle', vid('v2', './assets/ogretmen_nasihat.mp4', 'Öğretmeninin Mesajı', 'Öğretmeninin sana özel nasihat videosu burada oynayacak.', 'Bilgisayardan Nasihat Videosu Seç (.mp4)'), 'videocam');
+        // const rE2 = () => W('Öğretmeninin Mesajını İzle', vid('v2', './assets/ogretmen_nasihat.mp4', 'Öğretmeninin Mesajı', 'Öğretmeninin sana özel nasihat videosu burada oynayacak.', 'Bilgisayardan Nasihat Videosu Seç (.mp4)'), 'videocam');
 
         /* DEĞERLENDİRME */
         const rD1 = () => W('Dijital Kavram Haritasını Tamamla', `<div id="pl">${plR('d1')}</div>`, 'hub');
@@ -2269,7 +2269,7 @@ ${d ? `<p style="margin:12px 0 0;text-align:right"><button class="b o" onclick="
         const rD2 = () => W('Kendimi Değerlendiriyorum', `<div class="col">${SE.map((t, i) => `<div class="cd"><p style="margin:0 0 6px"><b>${i + 1}.</b> ${t}</p><div class="g" id="sg${i}">${SO.map((o, j) => `<button class="op ${S.se[i] === j ? 'sel' : ''}" onclick="se(${i},${j})">${ic(o[0])} ${o[1]}</button>`).join('')}</div></div>`).join('')}
 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><input id="nm" maxlength="30" placeholder="Adın (isteğe bağlı)" value="${S.nm.replace(/"/g, '')}" style="font:inherit;padding:10px;border-radius:12px;border:3px solid var(--ink);background:var(--cd);color:var(--tx)"><button class="b o" onclick="cert()">${ic('workspace_premium')} Belgemi Oluştur</button><span id="ce"></span></div></div>`, 'rate_review');
         function se(i, j) { S.se[i] = j; sound('select'); [...document.querySelectorAll('#sg' + i + ' .op')].forEach((b, x) => b.classList.toggle('sel', x == j)) }
-        function cert() { if ([0, 1, 2, 3].some(i => S.se[i] == null)) { sound('wrong'); $('#ce').innerHTML = no('Lütfen dört maddeyi de işaretle.'); return } S.nm = $('#nm').value.trim(); S.g.cert = 1; sound('complete'); go(18) }
+        function cert() { if ([0, 1, 2, 3].some(i => S.se[i] == null)) { sound('wrong'); $('#ce').innerHTML = no('Lütfen dört maddeyi de işaretle.'); return } S.nm = $('#nm').value.trim(); S.g.cert = 1; sound('complete'); go(17) }
         function rCert() {
             const weak = [0, 1, 2, 3].filter(i => S.se[i] > 0);
             return W('Belgen Hazır!', `<div class="cert"><h2 style="margin:0;color:var(--or)">${ic('school')} 5. Sınıf Yapay Zekâ Atölyesi Tamamlama Belgesi</h2><p class="big" id="cn"></p><p class="lead">BTY.5.1.4 “Yapay zekâ ile ilgili temel kavramları ve özellikleri sorgulayabilme” kazanımı çalışmasını tamamlamıştır.<br>${ic('star', 'nc')} ${S.stars} yıldız · Kasım 2026</p>
@@ -2277,9 +2277,9 @@ ${weak.length ? `<p><b>Şu konuları tekrar edebilirsin:</b></p>${weak.map(i => 
         }
 
         /* YÖNLENDİRME */
-        const SC = [[0, 0, rG1], [0, 0, rG2], [0, 0, rG3], [0, 0, rG4], [1, 1, rK1], [1, 1, rK1b], [1, 2, rK2], [1, 2, rK2b], [1, 3, rK3], [1, 3, rK3b], [1, 4, rK4], [2, 0, rA1], [2, 0, rA2], /* [2, 0, rA3], (Etkinlik 3 devre dışı) */ [2, 0, rA4], [2, 0, rE1], [2, 0, rE2], [3, 0, rD1], [3, 0, rD2], [3, 0, rCert]];
+        const SC = [[0, 0, rG1], [0, 0, rG2], [0, 0, rG3], [0, 0, rG4], [1, 1, rK1], [1, 1, rK1b], [1, 2, rK2], [1, 2, rK2b], [1, 3, rK3], [1, 3, rK3b], [1, 4, rK4], [2, 0, rA1], [2, 0, rA2], /* [2, 0, rA3], (Etkinlik 3 devre dışı) */ [2, 0, rA4], [2, 0, rE1], [3, 0, rD1], [3, 0, rD2], [3, 0, rCert]];
         const all = (o, ks) => ks.every(k => o[k]);
-        const GT = { 0: () => S.g.v1, 1: () => S.g.gs, 5: () => all(S.o, ['e0', 'e1', 'e2', 'e3', 'e4', 'e5']), 6: () => all(S.f, [0, 1, 2]), 8: () => all(S.o, ['s0', 's1', 's2']), 11: () => S.done.a1, 12: () => S.done.a2, /* 13: a3 devre dışı */ 13: () => S.done.a4, 15: () => S.g.v2, 16: () => S.done.d1, 17: () => S.g.cert };
+        const GT = { 0: () => S.g.v1, 1: () => S.g.gs, 5: () => all(S.o, ['e0', 'e1', 'e2', 'e3', 'e4', 'e5']), 6: () => all(S.f, [0, 1, 2]), 8: () => all(S.o, ['s0', 's1', 's2']), 11: () => S.done.a1, 12: () => S.done.a2, /* 13: a3 devre dışı */ 13: () => S.done.a4, 15: () => S.done.d1, 16: () => S.g.cert };
         function mx() { for (let i = 0; i < SC.length; i++)if (GT[i] && !GT[i]()) return i; return SC.length - 1 }
         function chk(p = 1) {
             const m = mx(), nx = $('#nx'), was = nx.disabled, can = canAdvance(), last = S.i == SC.length - 1; nx.disabled = !can; $('#pv').disabled = S.i == 0;
