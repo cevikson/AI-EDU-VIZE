@@ -2237,13 +2237,17 @@ ${weak.length ? `<p><b>Şu konuları tekrar edebilirsin:</b></p>${weak.map(i => 
         const GT = { 0: () => S.g.v1, 1: () => S.g.gs, 5: () => all(S.o, ['e0', 'e1', 'e2', 'e3', 'e4', 'e5']), 6: () => all(S.f, [0, 1, 2]), 8: () => all(S.o, ['s0', 's1', 's2']), 11: () => S.done.a1, 12: () => S.done.a2, /* 13: a3 devre dışı */ 13: () => S.done.a4, 15: () => S.g.v2, 16: () => S.done.d1, 17: () => S.g.cert };
         function mx() { for (let i = 0; i < SC.length; i++)if (GT[i] && !GT[i]()) return i; return SC.length - 1 }
         function chk(p = 1) {
-            const m = mx(), nx = $('#nx'), was = nx.disabled, can = S.i < m, last = S.i == SC.length - 1; nx.disabled = !can; $('#pv').disabled = S.i == 0;
+            const m = mx(), nx = $('#nx'), was = nx.disabled, can = canAdvance(), last = S.i == SC.length - 1; nx.disabled = !can; $('#pv').disabled = S.i == 0;
             if (p && can && was) { nx.classList.add('rdy'); setTimeout(() => nx.classList.remove('rdy'), 1300) }
             $('#ct').innerHTML = can || last ? (S.i + 1) + ' / ' + SC.length : ic('lock') + ' Devam etmek için bu adımı tamamla';
             document.querySelectorAll('[data-i]').forEach(b => b.disabled = +b.dataset.i > m); $('#st').textContent = S.stars
         }
+        function canAdvance() {
+            const requirement = GT[S.i];
+            return S.i < SC.length - 1 && (!requirement || requirement());
+        }
         function go(i, allowStageChange = false) {
-            const maxStep = allowStageChange ? SC.length - 1 : mx();
+            const maxStep = allowStageChange ? SC.length - 1 : Math.max(mx(), canAdvance() ? S.i + 1 : S.i);
             S.i = Math.max(0, Math.min(i, maxStep));
             S.seen.add(S.i);
             draw();
