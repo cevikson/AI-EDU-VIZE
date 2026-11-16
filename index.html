@@ -1949,6 +1949,8 @@
                 title="Ders Hedeflerini Gör"><span class="mi" style="color:#60A5FA">info</span> <b>Hedefler</b></button>
             <button id="tt" class="chip" onclick="tts()" aria-pressed="false"><span class="mi">volume_off</span> Sesli
                 Okuma: Kapalı</button>
+            <button id="sfx" class="chip" onclick="sfxToggle()" aria-pressed="true"><span class="mi">volume_up</span>
+                Ses Efektleri: Açık</button>
             <span id="sb" class="chip"><span class="mi" style="color:var(--or)">star</span> <b id="st">0</b></span>
         </div>
         <div id="sg" class="sg"></div>
@@ -1966,15 +1968,16 @@
     </div>
     <script>
         const $ = s => document.querySelector(s);
-        const S = { cover: true, i: 0, stars: 0, seen: new Set([0]), tts: 0, q: {}, p: {}, done: {}, w: {}, wn: 0, se: [], nm: '', g: {}, o: {}, f: {}, fc: -1, gc: -1 };
+        const S = { cover: true, i: 0, stars: 0, seen: new Set([0]), tts: 0, sfx: 1, q: {}, p: {}, done: {}, w: {}, wn: 0, se: [], nm: '', g: {}, o: {}, f: {}, fc: -1, gc: -1 };
         const ic = (n, c = '') => `<span class="mi ${c}" aria-hidden="true">${n}</span>`;
         const ST = ['1. Giriş', '2. Sunuş', '3. Alıştırma & Geri Bildirim', '4. Değerlendirme'], FS = [0, 4, 11, 16], SN = ['Kavram', 'Süreç', 'İlke', 'Ara Özet'], SF = [4, 6, 8, 10];
         const W = (t, b, i = '') => `<div class="w"><div class="ti-wrap"><h2 class="ti">${i ? `<span class="ti-icon">${ic(i)}</span>` : ''}<span>${t}</span></h2></div>${b}</div>`;
         const X = (k, i, t, d, c = '') => `<button class="op x ${c} ${S.o[k] ? '' : ''}" onclick="tg(this,'${k}')"><b>${ic(i)} ${t}${ic('expand_more', 'chev')}</b><span class="d"><span>${d}</span></span></button>`;
-        function tg(el, k) { el.classList.toggle('open'); S.o[k] = 1; chk() }
+        function tg(el, k) { el.classList.toggle('open'); S.o[k] = 1; sound('select'); chk() }
         function discoverCard(el, k) {
             S.o[k] = 1;
             el.classList.add('discovered');
+            sound('select');
             const st = el.querySelector('.ic-status');
             if (st) st.innerHTML = ic('check_circle', 'okc') + ' İncelendi';
             chk();
@@ -1982,12 +1985,53 @@
         function openModal(id) { const m = $('#' + id); if (m) m.classList.add('open'); }
         function closeModal(id) { const m = $('#' + id); if (m) m.classList.remove('open'); }
         window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal('info-modal'); });
+        let audioCtx;
+        const soundPatterns = {
+            click: [[440, .045, 0]],
+            select: [[380, .06, 0]],
+            nav: [[520, .07, 0], [660, .09, .07]],
+            start: [[392, .1, 0], [523, .1, .1], [659, .18, .2]],
+            correct: [[523, .09, 0], [659, .09, .09], [784, .16, .18]],
+            wrong: [[220, .14, 0], [175, .2, .14]],
+            hint: [[330, .08, 0], [440, .08, .08], [660, .16, .16]],
+            complete: [[523, .08, 0], [659, .08, .08], [784, .08, .16], [1047, .24, .24]]
+        };
+        function sound(type = 'click') {
+            if (!S.sfx || !soundPatterns[type]) return;
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContext) return;
+            audioCtx = audioCtx || new AudioContext();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const now = audioCtx.currentTime;
+            soundPatterns[type].forEach(([frequency, duration, delay]) => {
+                const oscillator = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(frequency, now + delay);
+                gain.gain.setValueAtTime(.0001, now + delay);
+                gain.gain.exponentialRampToValueAtTime(.055, now + delay + .01);
+                gain.gain.exponentialRampToValueAtTime(.0001, now + delay + duration);
+                oscillator.connect(gain).connect(audioCtx.destination);
+                oscillator.start(now + delay);
+                oscillator.stop(now + delay + duration + .02);
+            });
+        }
+        function sfxToggle() {
+            S.sfx = !S.sfx;
+            $('#sfx').innerHTML = ic(S.sfx ? 'volume_up' : 'volume_off') + (S.sfx ? ' Ses Efektleri: Açık' : ' Ses Efektleri: Kapalı');
+            $('#sfx').setAttribute('aria-pressed', S.sfx);
+            if (S.sfx) sound('click');
+        }
+        document.addEventListener('click', e => {
+            const button = e.target.closest('button');
+            if (button && !button.disabled && button.id !== 'sfx') sound(button.dataset.sfx || 'click');
+        });
 
         const C = (i, t, d, c) => `<div class="cd ${c}"><div class="ic">${ic(i)}</div><h3>${t}</h3>${d ? `<p>${d}</p>` : ''}</div>`;
         const N = (n, t, c) => `<div class="cd ${c}"><div class="nm">${n}</div><h3>${t}</h3></div>`;
         const vid = (id, src, t, s, btn) => `<div class="vid"><video id="${id}" controls preload="metadata" src="${src}" onended="vd('${id}')" onerror="this.parentNode.classList.add('err')"></video><div class="ps">${ic('movie', 'bg')}<h3>${t}</h3><p>${s}</p><div><label class="b o">${ic('upload_file')} ${btn}<input type="file" accept="video/mp4" hidden onchange="lv(this,'${id}')"></label><button class="b" style="margin-top:6px" onclick="vd('${id}')">Videoyu Atla ${ic('skip_next')}</button></div></div></div>`;
         function lv(i, id) { const f = i.files[0]; if (!f) return; const v = $('#' + id); v.parentNode.classList.remove('err'); v.src = URL.createObjectURL(f); v.play().catch(() => 0) }
-        function vd(id) { S.g[id] = 1; chk() }
+        function vd(id) { S.g[id] = 1; sound('complete'); chk() }
         function txt() { const c = $('#main').cloneNode(true); c.querySelectorAll('.mi').forEach(e => e.remove()); return c.textContent }
         function say(t) { if (!('speechSynthesis' in window)) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'tr-TR'; u.rate = .9; speechSynthesis.speak(u) }
         function tts() { S.tts = !S.tts; $('#tt').innerHTML = ic(S.tts ? 'volume_up' : 'volume_off') + (S.tts ? ' Sesli Okuma: Açık' : ' Sesli Okuma: Kapalı'); $('#tt').setAttribute('aria-pressed', S.tts); if (S.tts) say(txt()); else if ('speechSynthesis' in window) speechSynthesis.cancel() }
@@ -2001,7 +2045,7 @@
         const rG2 = () => W('Merak Sorusu', `<div class="cd to question-box"><div class="q-icon">${ic('lightbulb')}</div><div>Kerem ödevinde “Türkiye’nin başkenti İstanbul’dur” dedi ama sınıf arkadaşları güldü! Kerem “Ama yapay zekâ bana böyle demişti” diyor. <b class="q-highlight">Sence yapay zekâ neden yanlış cevap vermiş olabilir?</b></div></div>
 <div class="g quiz-options">${[['A', 'Yapay zekâ şaka yapmayı çok sever.'], ['B', 'Yapay zekâ her şeyi ezbere bilmez; verilerden tahmin yürütürken yanılabilir.'], ['C', 'Kerem’in tableti bozulmuştur.']].map(([letter, t], i) => `<button class="op big opt-${letter.toLowerCase()} ${S.gc == i ? 'sel' : ''}" onclick="gs(this,${i})"><span class="opt-badge">${letter})</span><span class="opt-text">${t}</span></button>`).join('')}</div>
 <div class="rev ${S.gc >= 0 ? 'open' : ''}" id="gb"><div><div class="fb ok">${ic('thumb_up', 'okc')} Harika bir tahmin! Bakalım gerçek sebep neymiş, şimdi birlikte keşfedelim!</div></div></div>`, 'help');
-        function gs(el, i) { [...el.parentNode.children].forEach(b => b.classList.remove('sel')); el.classList.add('sel'); S.gc = i; S.g.gs = 1; $('#gb').classList.add('open'); chk() }
+        function gs(el, i) { [...el.parentNode.children].forEach(b => b.classList.remove('sel')); el.classList.add('sel'); S.gc = i; S.g.gs = 1; sound('select'); $('#gb').classList.add('open'); chk() }
         const rG3 = () => W('Neden Öğreniyoruz?', `<div class="g">${C('search', 'Gerçek Zekâyı Tanı', 'Günlük hayattaki hangi cihazın gerçekten yapay zekâ olduğunu hemen ayırt edeceksin.', 'tb')}${C('psychology', 'Sırrını Çöz', 'Yapay zekânın Kerem’e neden yanlış cevap verdiğini öğreneceksin.', 'to')}${C('verified_user', 'Hatasız Kullan', 'Ödevlerinde yapay zekâyı doğru ve güvenli kullanmayı öğreneceksin.', 'tg')}</div>`, 'rocket_launch');
         const rG4 = () => W('Önbilgiler ve Zekâ Türleri', `<div class="cd to question-box" style="margin-bottom: 20px;">
     <div class="q-icon">${ic('lightbulb')}</div>
@@ -2102,6 +2146,7 @@
         function fs(i) {
             S.f[i] = 1;
             S.fc = i;
+            sound('select');
             document.querySelectorAll('#fw .st').forEach((b, x) => {
                 b.classList.toggle('sel', !!S.f[x]);
                 b.classList.toggle('cur', x == i);
@@ -2141,10 +2186,10 @@ ${s.ok ? `<p style="margin:12px 0 0;text-align:right"><button class="b o" onclic
         }
         function qA(k, i) {
             const s = S.q[k], it = QZ[k].it[s.n];
-            if (i == it[1]) { s.ok = 1; s.f = ok('Doğru! ' + it[2]); if (!s.t) star(1) } else { s.t++; s.w = i; s.f = no('Bu seçim doğru değil. ' + it[2] + ' Doğru cevabı bulana kadar tekrar dene!') }
+            if (i == it[1]) { s.ok = 1; s.f = ok('Doğru! ' + it[2]); sound('correct'); if (!s.t) star(1) } else { s.t++; s.w = i; s.f = no('Bu seçim doğru değil. ' + it[2] + ' Doğru cevabı bulana kadar tekrar dene!'); sound('wrong') }
             $('#act').innerHTML = qR(k)
         }
-        function qN(k) { const s = S.q[k]; s.n++; s.t = 0; s.ok = 0; s.f = ''; s.w = -1; if (s.n >= QZ[k].it.length) S.done[k] = 1; $('#act').innerHTML = qR(k); chk() }
+        function qN(k) { const s = S.q[k]; s.n++; s.t = 0; s.ok = 0; s.f = ''; s.w = -1; if (s.n >= QZ[k].it.length) { S.done[k] = 1; sound('complete') } else sound('nav'); $('#act').innerHTML = qR(k); chk() }
         const rA1 = () => W('Etkinlik 1: Yapay Zekâ mı, Sıradan Makine mi?', `<div id="act">${qR('a1')}</div>`, 'category');
         // const rA3 = () => W('Etkinlik 3: Gerçek mi, Yapay Zekâ Hatası mı?', `<div id="act">${qR('a3')}</div>`, 'fact_check'); /* Etkinlik 3 yorum satırına alındı */
 
@@ -2164,8 +2209,8 @@ ${s.ok ? `<p style="margin:12px 0 0;text-align:right"><button class="b o" onclic
         function pS(k, id) {
             const p = S.p[k], A = PL[k].A, a = A[id]; if (p.f[id] != null) return; p.last = '';
             if (p.sel < 0) { p.m = no('Önce alttaki etiketlerden birini seç, sonra bir kutuya dokun.'); p.mk = 'no' }
-            else if (PL[k].L[p.sel] == a[0]) { p.f[id] = p.sel; p.sel = -1; p.last = id; p.m = ok('Doğru yerleştirdin!'); p.mk = 'ok'; if (!p.e[id]) star(1); if (Object.keys(p.f).length == Object.keys(A).length) { S.done[k] = 1; p.m = ic('celebration') + ' Harika! Tüm kutuları doğru doldurdun.' } }
-            else { p.e[id] = 1; p.sel = -1; p.m = no('Bu etiket bu kutuya uymuyor. İpucu: ' + a[1] + ' Etiket geri döndü, tekrar dene!'); p.mk = 'no' }
+            else if (PL[k].L[p.sel] == a[0]) { p.f[id] = p.sel; p.sel = -1; p.last = id; p.m = ok('Doğru yerleştirdin!'); p.mk = 'ok'; sound('correct'); if (!p.e[id]) star(1); if (Object.keys(p.f).length == Object.keys(A).length) { S.done[k] = 1; p.m = ic('celebration') + ' Harika! Tüm kutuları doğru doldurdun.'; sound('complete') } }
+            else { p.e[id] = 1; p.sel = -1; p.m = no('Bu etiket bu kutuya uymuyor. İpucu: ' + a[1] + ' Etiket geri döndü, tekrar dene!'); p.mk = 'no'; sound('wrong') }
             $('#pl').innerHTML = plR(k); chk()
         }
         /* Sürükle-bırak (fare ve dokunmatik) */
@@ -2198,8 +2243,8 @@ ${d ? `<p style="margin:12px 0 0;text-align:right"><button class="b o" onclick="
             e.value = e.value.toLocaleUpperCase('tr-TR'); const n = S.wn, r = [...document.querySelectorAll('#act .bx input')], m = $('#wm'); r.forEach(x => x.classList.remove('no')); m.style.display = 'none';
             const nx = r[+e.dataset.c + 1]; if (e.value && nx) nx.focus(); if (r.some(x => !x.value)) return;
             const v = r.map(x => x.value).join(''), w = WD[n][0];
-            if (v == w) { S.w[n] = 1; star(1); if (n == 4) S.done.a4 = 1; $('#act').innerHTML = wR() }
-            else { r.forEach(x => x.classList.add('no')); m.style.display = 'block'; m.className = 'fb no'; m.innerHTML = no('Henüz doğru değil. İpucu: kelime ' + [...w].length + ' harfli ve “' + w[0] + '” harfiyle başlıyor. Harfleri değiştirip tekrar dene!') }
+            if (v == w) { S.w[n] = 1; sound('correct'); star(1); if (n == 4) { S.done.a4 = 1; sound('complete') } $('#act').innerHTML = wR() }
+            else { sound('wrong'); r.forEach(x => x.classList.add('no')); m.style.display = 'block'; m.className = 'fb no'; m.innerHTML = no('Henüz doğru değil. İpucu: kelime ' + [...w].length + ' harfli ve “' + w[0] + '” harfiyle başlıyor. Harfleri değiştirip tekrar dene!') }
         }
         function kp(c) { const e = S.a && S.a.isConnected ? S.a : $('#act .bx input'); e.value = c; wi(e); if (!c) e.focus() }
         /* Harf iste: slot makinesi gibi dönen harf */
@@ -2211,7 +2256,7 @@ ${d ? `<p style="margin:12px 0 0;text-align:right"><button class="b o" onclick="
         }
         function hint() {
             if (S.hl) return; const w = [...WD[S.wn][0]], r = [...document.querySelectorAll('#act .bx input')], c = r.map((x, k) => x.value !== w[k] ? k : -1).filter(k => k >= 0); if (!c.length) return; const j = c[Math.floor(Math.random() * c.length)];
-            S.hl = 1; $('#hb').disabled = true; star(-1); const inp = r[j];
+            S.hl = 1; $('#hb').disabled = true; sound('hint'); star(-1); const inp = r[j];
             spin(inp, w[j], () => { S.hl = 0; if (!inp.isConnected) return; inp.value = w[j]; inp.classList.add('pl'); wi(inp) })
         }
         const rA4 = () => W('Etkinlik 3: Kavram Bulmacası', `<div class="cd" id="act">${wR()}</div>`, 'grid_view');
@@ -2223,8 +2268,8 @@ ${d ? `<p style="margin:12px 0 0;text-align:right"><button class="b o" onclick="
         const SE = ['Yapay zekâ ile sıradan makineler arasındaki farkı örneklerle açıklayabilirim.', 'Yapay zekânın veri toplama, eğitim ve tahmin adımlarıyla nasıl öğrendiğini sıralayabilirim.', 'Yapay zekânın neden bazen yanlış bilgi üretebileceğini açıklayabilirim.', 'Yapay zekâyı kullanırken kişisel bilgilerimi koruyup cevapları mutlaka doğrularım.'], SO = [['sentiment_very_satisfied', 'Evet, Çok İyi Anladım'], ['sentiment_neutral', 'Kısmen Anladım'], ['replay', 'Tekrar Etmeliyim']], SR = [4, 6, 7, 8];
         const rD2 = () => W('Kendimi Değerlendiriyorum', `<div class="col">${SE.map((t, i) => `<div class="cd"><p style="margin:0 0 6px"><b>${i + 1}.</b> ${t}</p><div class="g" id="sg${i}">${SO.map((o, j) => `<button class="op ${S.se[i] === j ? 'sel' : ''}" onclick="se(${i},${j})">${ic(o[0])} ${o[1]}</button>`).join('')}</div></div>`).join('')}
 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><input id="nm" maxlength="30" placeholder="Adın (isteğe bağlı)" value="${S.nm.replace(/"/g, '')}" style="font:inherit;padding:10px;border-radius:12px;border:3px solid var(--ink);background:var(--cd);color:var(--tx)"><button class="b o" onclick="cert()">${ic('workspace_premium')} Belgemi Oluştur</button><span id="ce"></span></div></div>`, 'rate_review');
-        function se(i, j) { S.se[i] = j;[...document.querySelectorAll('#sg' + i + ' .op')].forEach((b, x) => b.classList.toggle('sel', x == j)) }
-        function cert() { if ([0, 1, 2, 3].some(i => S.se[i] == null)) { $('#ce').innerHTML = no('Lütfen dört maddeyi de işaretle.'); return } S.nm = $('#nm').value.trim(); S.g.cert = 1; go(18) }
+        function se(i, j) { S.se[i] = j; sound('select'); [...document.querySelectorAll('#sg' + i + ' .op')].forEach((b, x) => b.classList.toggle('sel', x == j)) }
+        function cert() { if ([0, 1, 2, 3].some(i => S.se[i] == null)) { sound('wrong'); $('#ce').innerHTML = no('Lütfen dört maddeyi de işaretle.'); return } S.nm = $('#nm').value.trim(); S.g.cert = 1; sound('complete'); go(18) }
         function rCert() {
             const weak = [0, 1, 2, 3].filter(i => S.se[i] > 0);
             return W('Belgen Hazır!', `<div class="cert"><h2 style="margin:0;color:var(--or)">${ic('school')} 5. Sınıf Yapay Zekâ Atölyesi Tamamlama Belgesi</h2><p class="big" id="cn"></p><p class="lead">BTY.5.1.4 “Yapay zekâ ile ilgili temel kavramları ve özellikleri sorgulayabilme” kazanımı çalışmasını tamamlamıştır.<br>${ic('star', 'nc')} ${S.stars} yıldız · Kasım 2026</p>
@@ -2248,11 +2293,12 @@ ${weak.length ? `<p><b>Şu konuları tekrar edebilirsin:</b></p>${weak.map(i => 
         }
         function go(i, allowStageChange = false) {
             const maxStep = allowStageChange ? SC.length - 1 : Math.max(mx(), canAdvance() ? S.i + 1 : S.i);
+            if (i !== S.i) sound(allowStageChange ? 'nav' : 'click');
             S.i = Math.max(0, Math.min(i, maxStep));
             S.seen.add(S.i);
             draw();
         }
-        function startLesson() { S.cover = false; draw() }
+        function startLesson() { S.cover = false; sound('start'); draw() }
         const cover = () => `<div class="cover"><div class="cover-card">
             <div class="cover-icon">${ic('smart_toy')}</div>
             <h2>Yapay Zekâ Temel Kavramları</h2>
